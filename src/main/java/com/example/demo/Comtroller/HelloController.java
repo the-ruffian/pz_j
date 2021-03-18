@@ -10,18 +10,24 @@ import org.springframework.web.bind.annotation.*;
 @RestController  /*这个类的所有方法返回的所有方法直接写给浏览器（如果是对象转为json数据）*/
 public class HelloController {
 
+/*
     @PostMapping(value = "/h")
-    public String hello(@RequestParam( "username") String username,
-                        @RequestParam( "password") String password
-                        ) {
+*/
+    @ResponseBody
+    @RequestMapping(value = "/h", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    public String hello(@RequestBody JSONObject jsonParam) {
+        System.out.println(jsonParam);
+        String username = jsonParam.getString("username");
+        String password = jsonParam.getString("password");
         JSONObject jsonObject = new JSONObject();
         if (username.equals("bugPZ") && password.equals("123456")){
-            jsonObject.put("username", username);
-            jsonObject.put("password", password);
             jsonObject.put("code", 200);
             jsonObject.put("msg", "登录成功");
-            return jsonObject.toJSONString();
+        } else {
+            jsonObject.put("code",400);
+            jsonObject.put("msg", "账号或密码错误");
+
         }
-        return "hello, world";
+        return jsonObject.toJSONString();
     }
 }
