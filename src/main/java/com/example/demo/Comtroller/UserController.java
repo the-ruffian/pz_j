@@ -1,11 +1,13 @@
 package com.example.demo.comtroller;
 
+
 import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 
@@ -46,6 +48,27 @@ public class UserController {
     * */
     @GetMapping("user/{id}")
     public User findById(@PathVariable("id")Integer id){
+
         return repository.findById(id).orElse(null);
+    }
+
+    @PutMapping("user/{id}")
+    public User update(@PathVariable(value = "id")Integer id,
+                       @RequestParam(value = "password", required = false)String password,
+                       @RequestParam(value = "sex" ,required = false)String sex,
+                       @RequestParam(value = "email", required = false)String email,
+                       @RequestParam(value = "username",required = false)String username){
+        Optional<User> optional = repository.findById(id);
+        User user;
+        if(optional.isPresent()){
+            user = optional.get();
+        }else {
+            return null;
+        }
+        user.setUsername(username);
+        user.setPassword(password);
+        user.setSex(sex);
+        user.setEmail(email);
+        return repository.save(user);
     }
 }
