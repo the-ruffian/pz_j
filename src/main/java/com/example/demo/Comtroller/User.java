@@ -1,10 +1,9 @@
-package com.example.demo.Comtroller;
+package com.example.demo.comtroller;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import java.sql.Date;
 
 @Entity
 public class User {

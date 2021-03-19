@@ -1,4 +1,4 @@
-package com.example.demo.Comtroller;
+package com.example.demo.comtroller;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
