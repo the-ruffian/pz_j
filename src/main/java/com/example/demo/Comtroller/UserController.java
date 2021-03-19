@@ -1,5 +1,6 @@
 package com.example.demo.comtroller;
 
+import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
