@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class User {
@@ -11,13 +12,13 @@ public class User {
     @Id
     @GeneratedValue
     private Integer id;
-
+    @NotNull(message = "用户名不能为空")
     private String username;
-
+    @NotNull(message = "密码不能为空")
     private String password;
-
+    @NotNull(message = "邮箱不能为空")
     private String email;
-
+    @NotNull(message = "性别不能为空")
     private String sex;
 
     @Column(length = 12, nullable = false)
