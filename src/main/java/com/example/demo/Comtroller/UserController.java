@@ -51,7 +51,9 @@ public class UserController {
 
         return repository.findById(id).orElse(null);
     }
-
+    /*
+    *  修改用户数据
+    * */
     @PutMapping("user/{id}")
     public User update(@PathVariable(value = "id")Integer id,
                        @RequestParam(value = "password", required = false)String password,
@@ -70,5 +72,14 @@ public class UserController {
         user.setSex(sex);
         user.setEmail(email);
         return repository.save(user);
+    }
+
+    /*
+    * 删除用户
+    * */
+    @DeleteMapping("/user/{id}")
+    public User delete(@PathVariable("id")Integer id){
+        repository.delete(findById(id));
+        return null;
     }
 }
