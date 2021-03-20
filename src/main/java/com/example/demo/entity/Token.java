@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
 @Entity
-public class token {
+public class Token {
 
     @Id
     @GeneratedValue
