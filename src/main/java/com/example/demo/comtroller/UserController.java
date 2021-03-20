@@ -1,8 +1,10 @@
 package com.example.demo.comtroller;
 
 
+import com.alibaba.fastjson.JSONObject;
 import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-
+@Api(tags = "用户模块")
 public class UserController {
 
     @Autowired
@@ -54,17 +56,20 @@ public class UserController {
     /*
     *  修改用户数据
     * */
-    @PutMapping("user/{id}")
-    public User update(@PathVariable(value = "id")Integer id,
-                       @RequestParam(value = "password", required = false)String password,
-                       @RequestParam(value = "sex" ,required = false)String sex,
-                       @RequestParam(value = "email", required = false)String email,
-                       @RequestParam(value = "username",required = false)String username){
-        Optional<User> optional = repository.findById(id);
+    @PutMapping(value = "user/{phone}", produces = "application/json;charset=UTF-8")
+    public User update(@PathVariable("phone") String phone,
+                       @RequestBody JSONObject jsonParam){
+        String username = jsonParam.getString("username");
+        String sex = jsonParam.getString("sex");
+        String password = jsonParam.getString("password");
+        String email = jsonParam.getString("email");
+        Optional<User> userList= repository.findByPhone(phone);
+        System.out.println(userList);
+
         User user;
-        if(optional.isPresent()){
-            user = optional.get();
-        }else {
+        if (userList.isPresent()){
+           user = userList.get();
+        } else {
             return null;
         }
         user.setUsername(username);
@@ -81,5 +86,40 @@ public class UserController {
     public User delete(@PathVariable("id")Integer id){
         repository.delete(findById(id));
         return null;
+    }
+
+    @ApiOperation("用户登录")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "phone", value = "手机号", readOnly = true, paramType = "json"),
+            @ApiImplicitParam(name = "password", value = "密码", readOnly = true, paramType = "json"),
+    })
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "请求成功"),
+            @ApiResponse(code = 400, message = "请求参数没填好"),
+            @ApiResponse(code = 404, message = "请求路径没有或页面跳转路径不对")
+    })
+    @PostMapping(value = "/login", produces = "application/json;charset=UTF-8")
+    public String login(@RequestBody JSONObject jsonParam){
+        System.out.println(jsonParam);
+        String phone = jsonParam.getString("phone");
+        String password = jsonParam.getString("password");
+        System.out.println(phone + password);
+        Optional<User> userList = repository.findByPhone(phone);
+        User user;
+        JSONObject obj = new JSONObject();
+        if (userList.isPresent()){
+            user = userList.get();
+            if (password.equals(user.getPassword())){
+                obj.put("code", 200);
+                obj.put("msg","登录成功");
+            } else {
+                obj.put("code", 200);
+                obj.put("msg", "密码错误");
+            }
+        }else {
+            obj.put("code",200);
+            obj.put("msg","账号不存在");
+        }
+        return obj.toJSONString();
     }
 }
