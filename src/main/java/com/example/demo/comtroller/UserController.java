@@ -29,12 +29,13 @@ public class UserController {
     /*
     * 2.创建一条信息
     * */
-    @PostMapping("/user")
-    public User create(@RequestParam("username")String username,
-                       @RequestParam("password")String password,
-                       @RequestParam("phone")String phone,
-                       @RequestParam("sex")String sex,
-                       @RequestParam("email")String email){
+    @PostMapping(value = "/register", produces = "application/json;charset=UTF-8")
+    public User create(@RequestBody JSONObject jsonParam){
+        String username = jsonParam.getString("username");
+        String password = jsonParam.getString("password");
+        String email = jsonParam.getString("email");
+        String phone = jsonParam.getString("phone");
+        String sex = jsonParam.getString("sex");
 
         User user = new User();
         user.setUsername(username);
