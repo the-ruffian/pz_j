@@ -14,7 +14,7 @@ public class HelloController {
     @PostMapping(value = "/h")
 */
     @ResponseBody
-    @RequestMapping(value = "/h", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/api/h", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     public String hello(@RequestBody JSONObject jsonParam) {
         System.out.println(jsonParam);
         String username = jsonParam.getString("username");

@@ -22,7 +22,7 @@ public class UserController {
     * 1.获取所有信息
     * */
     @ApiOperation(value = "获取所有用户信息")
-    @GetMapping("/user")
+    @GetMapping("/api/user")
     public List<User> getAll(){
         return repository.findAll();
     }
@@ -31,7 +31,7 @@ public class UserController {
     * 2.创建一条信息
     * */
     @ApiOperation(value = "用户注册")
-    @PostMapping(value = "/register", produces = "application/json;charset=UTF-8")
+    @PostMapping(value = "/api/register", produces = "application/json;charset=UTF-8")
     public User create(@RequestBody JSONObject jsonParam){
         String username = jsonParam.getString("username");
         String password = jsonParam.getString("password");
@@ -52,7 +52,7 @@ public class UserController {
     * 3.通过id查用户
     * */
     @ApiOperation(value = "根据id获取用户")
-    @GetMapping("user/{id}")
+    @GetMapping("/api/user/{id}")
     public User findById(@PathVariable("id")Integer id){
 
         return repository.findById(id).orElse(null);
@@ -61,7 +61,7 @@ public class UserController {
     *  修改用户数据
     * */
     @ApiOperation(value = "修改用户信息")
-    @PutMapping(value = "user/{phone}", produces = "application/json;charset=UTF-8")
+    @PutMapping(value = "/api/user/{phone}", produces = "application/json;charset=UTF-8")
     public User update(@PathVariable("phone") String phone,
                        @RequestBody JSONObject jsonParam){
         String username = jsonParam.getString("username");
@@ -88,7 +88,7 @@ public class UserController {
     * 删除用户
     * */
     @ApiOperation(value = "删除账号")
-    @DeleteMapping("/user/{id}")
+    @DeleteMapping("/api/user/{id}")
     public User delete(@PathVariable("id")Integer id){
         repository.delete(findById(id));
         return null;
@@ -100,7 +100,7 @@ public class UserController {
             @ApiResponse(code = 400, message = "请求参数没填好"),
             @ApiResponse(code = 404, message = "请求路径没有或页面跳转路径不对")
     })
-    @PostMapping(value = "/login", produces = "application/json;charset=UTF-8")
+    @PostMapping(value = "/api/login", produces = "application/json;charset=UTF-8")
     public String login(@RequestBody JSONObject jsonParam){
         System.out.println(jsonParam);
         String phone = jsonParam.getString("phone");
