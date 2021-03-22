@@ -21,6 +21,7 @@ public class UserController {
     /*
     * 1.获取所有信息
     * */
+    @ApiOperation(value = "获取所有用户信息")
     @GetMapping("/user")
     public List<User> getAll(){
         return repository.findAll();
@@ -29,6 +30,7 @@ public class UserController {
     /*
     * 2.创建一条信息
     * */
+    @ApiOperation(value = "用户注册")
     @PostMapping(value = "/register", produces = "application/json;charset=UTF-8")
     public User create(@RequestBody JSONObject jsonParam){
         String username = jsonParam.getString("username");
@@ -49,6 +51,7 @@ public class UserController {
     /*
     * 3.通过id查用户
     * */
+    @ApiOperation(value = "根据id获取用户")
     @GetMapping("user/{id}")
     public User findById(@PathVariable("id")Integer id){
 
@@ -57,6 +60,7 @@ public class UserController {
     /*
     *  修改用户数据
     * */
+    @ApiOperation(value = "修改用户信息")
     @PutMapping(value = "user/{phone}", produces = "application/json;charset=UTF-8")
     public User update(@PathVariable("phone") String phone,
                        @RequestBody JSONObject jsonParam){
@@ -83,6 +87,7 @@ public class UserController {
     /*
     * 删除用户
     * */
+    @ApiOperation(value = "删除账号")
     @DeleteMapping("/user/{id}")
     public User delete(@PathVariable("id")Integer id){
         repository.delete(findById(id));
@@ -90,10 +95,6 @@ public class UserController {
     }
 
     @ApiOperation("用户登录")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "phone", value = "手机号", readOnly = true, paramType = "json"),
-            @ApiImplicitParam(name = "password", value = "密码", readOnly = true, paramType = "json"),
-    })
     @ApiResponses({
             @ApiResponse(code = 200, message = "请求成功"),
             @ApiResponse(code = 400, message = "请求参数没填好"),
