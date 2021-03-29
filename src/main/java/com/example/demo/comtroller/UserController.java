@@ -51,18 +51,19 @@ public class UserController {
     }
 
     /*
-    * 3.通过id查用户
+    * 3.通过手机号查用户
     * */
-    @ApiOperation(value = "根据id获取用户")
-    @GetMapping("/api/user/{id}")
-    public User findById(@PathVariable("id")Integer id){
+    @ApiOperation(value = "根据手机号获取用户")
+    @GetMapping("/api/user/{phone}")
+    public User findByPhone(@PathVariable("phone")String phone){
 
-        return repository.findById(id).orElse(null);
+        return repository.findByPhone(phone).orElse(null);
     }
     /*
     *  修改用户数据
     * */
     @ApiOperation(value = "修改用户信息")
+    @ApiParam(value = "{test:test}")
     @PutMapping(value = "/api/user/{phone}", produces = "application/json;charset=UTF-8")
     public User update(@PathVariable("phone") String phone,
                        @RequestBody JSONObject jsonParam){
@@ -91,9 +92,9 @@ public class UserController {
     * 删除用户
     * */
     @ApiOperation(value = "删除账号")
-    @DeleteMapping("/api/user/delete/{id}")
-    public User delete(@PathVariable("id")Integer id){
-        repository.delete(findById(id));
+    @DeleteMapping("/api/user/delete/{phone}")
+    public User delete(@PathVariable("phone")String phone){
+        repository.delete(findByPhone(phone));
         return null;
     }
 
