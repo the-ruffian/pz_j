@@ -6,6 +6,7 @@ import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,17 +32,18 @@ public class UserController {
     * 2.创建一条信息
     * */
     @ApiOperation(value = "用户注册")
-    @PostMapping(value = "/api/register", produces = "application/json;charset=UTF-8")
+    @PostMapping(value = "/api/user/register", produces = "application/json;charset=UTF-8")
     public User create(@RequestBody JSONObject jsonParam){
         String username = jsonParam.getString("username");
         String password = jsonParam.getString("password");
         String email = jsonParam.getString("email");
         String phone = jsonParam.getString("phone");
         String sex = jsonParam.getString("sex");
+        String md5Password = DigestUtils.md5DigestAsHex(password.getBytes());
 
         User user = new User();
         user.setUsername(username);
-        user.setPassword(password);
+        user.setPassword(md5Password);
         user.setEmail(email);
         user.setPhone(phone);
         user.setSex(sex);
@@ -68,6 +70,7 @@ public class UserController {
         String sex = jsonParam.getString("sex");
         String password = jsonParam.getString("password");
         String email = jsonParam.getString("email");
+        String md5Password = DigestUtils.md5DigestAsHex(password.getBytes());
         Optional<User> userList= repository.findByPhone(phone);
         System.out.println(userList);
 
@@ -78,7 +81,7 @@ public class UserController {
             return null;
         }
         user.setUsername(username);
-        user.setPassword(password);
+        user.setPassword(md5Password);
         user.setSex(sex);
         user.setEmail(email);
         return repository.save(user);
@@ -88,7 +91,7 @@ public class UserController {
     * 删除用户
     * */
     @ApiOperation(value = "删除账号")
-    @DeleteMapping("/api/user/{id}")
+    @DeleteMapping("/api/user/delete/{id}")
     public User delete(@PathVariable("id")Integer id){
         repository.delete(findById(id));
         return null;
@@ -100,18 +103,19 @@ public class UserController {
             @ApiResponse(code = 400, message = "请求参数没填好"),
             @ApiResponse(code = 404, message = "请求路径没有或页面跳转路径不对")
     })
-    @PostMapping(value = "/api/login", produces = "application/json;charset=UTF-8")
+    @PostMapping(value = "/api/user/login", produces = "application/json;charset=UTF-8")
     public String login(@RequestBody JSONObject jsonParam){
         System.out.println(jsonParam);
         String phone = jsonParam.getString("phone");
         String password = jsonParam.getString("password");
+        String md5Password = DigestUtils.md5DigestAsHex(password.getBytes());
         System.out.println(phone + password);
         Optional<User> userList = repository.findByPhone(phone);
         User user;
         JSONObject obj = new JSONObject();
         if (userList.isPresent()){
             user = userList.get();
-            if (password.equals(user.getPassword())){
+            if (md5Password.equals(user.getPassword())){
                 obj.put("code", 200);
                 obj.put("msg","登录成功");
             } else {
