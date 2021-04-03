@@ -55,8 +55,16 @@ public class UserController {
     * */
     @ApiOperation(value = "根据手机号获取用户")
     @GetMapping("/api/user/{phone}")
-    public User findByPhone(@PathVariable("phone")String phone){
-
+    public Object findByPhone(@PathVariable("phone")String phone){
+        Optional<User> userList = repository.findByPhone(phone);
+        User user;
+        JSONObject obj = new JSONObject();
+        if (userList.isPresent()){
+            user = userList.get();
+            String username = user.getUsername();
+            obj.put("username", username);
+            return obj.toJSONString();
+        }
         return repository.findByPhone(phone).orElse(null);
     }
     /*
@@ -93,9 +101,18 @@ public class UserController {
     * */
     @ApiOperation(value = "删除账号")
     @DeleteMapping("/api/user/delete/{phone}")
-    public User delete(@PathVariable("phone")String phone){
-        repository.delete(findByPhone(phone));
-        return null;
+    public Object delete(@PathVariable("phone")String phone){
+        Optional<User> isUser = repository.findByPhone(phone);
+        JSONObject obj = new JSONObject();
+        if (isUser.isPresent()){
+            obj.put("msg","删除成功");
+            obj.put("code", 200);
+            repository.deleteByPhone(phone);
+        } else {
+            obj.put("msg", "删除失败");
+        }
+
+        return obj.toJSONString();
     }
 
     @ApiOperation("用户登录")
