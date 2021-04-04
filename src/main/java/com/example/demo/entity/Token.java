@@ -14,13 +14,16 @@ public class Token {
     private Integer id;
 
     @NotNull
+    @Column(length = 1000)
     private String token;
 
-    @NotNull
-    private  int buildTime;
 
     @Column(length = 12, nullable = false)
     private String phone;
+
+    public Token(){
+
+    }
 
     public Integer getId() {
         return id;
@@ -38,13 +41,6 @@ public class Token {
         this.token = token;
     }
 
-    public int getBuildTime() {
-        return buildTime;
-    }
-
-    public void setBuildTime(int buildTime) {
-        this.buildTime = buildTime;
-    }
 
     public String getPhone() {
         return phone;
