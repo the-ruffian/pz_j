@@ -2,11 +2,11 @@ package com.example.demo.comtroller;
 
 
 import com.alibaba.fastjson.JSONObject;
-//import com.example.demo.entity.Token;
+import com.example.demo.entity.Token;
 import com.example.demo.entity.User;
-//import com.example.demo.repository.TokenRepository;
+import com.example.demo.repository.TokenRepository;
 import com.example.demo.repository.UserRepository;
-//import com.example.demo.utils.JWTUtils;
+import com.example.demo.utils.JWTUtils;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
-//import java.util.Map;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -23,7 +23,8 @@ public class UserController {
 
     @Autowired
     private UserRepository repository;
-//    private TokenRepository repositoryT;
+    @Autowired
+    private TokenRepository repositoryT;
 
     /*
     * 1.获取所有信息
@@ -140,19 +141,19 @@ public class UserController {
         if (userList.isPresent()){
             user = userList.get();
             if (md5Password.equals(user.getPassword())){
-               /* Map<String,String> payload = new HashMap<>();
+                Map<String,String> payload = new HashMap<>();
                 payload.put("phone",phone);
                 payload.put("md5Password",md5Password);
                 String token = JWTUtils.getToken(payload);
                 Token token1 = new Token();
                 token1.setId(1);
                 token1.setPhone(phone);
-                System.out.println(token1);
-                repositoryT.save(token1);*/
+                token1.setToken(token);
+                repositoryT.save(token1);
 
                 obj.put("code", 200);
                 obj.put("msg","登录成功");
-//                obj.put("token",token);
+                obj.put("token",token);
             } else {
                 obj.put("code", 200);
                 obj.put("msg", "密码错误");
