@@ -141,19 +141,22 @@ public class UserController {
         if (userList.isPresent()){
             user = userList.get();
             if (md5Password.equals(user.getPassword())){
-                Map<String,String> payload = new HashMap<>();
-                payload.put("phone",phone);
-                payload.put("md5Password",md5Password);
+                Map<String, String> payload = new HashMap<>();
+                payload.put("phone", phone);
+                payload.put("md5Password", md5Password);
                 String token = JWTUtils.getToken(payload);
-                Token token1 = new Token();
-                token1.setId(1);
-                token1.setPhone(phone);
-                token1.setToken(token);
-                repositoryT.save(token1);
-
+                Optional<Token> tokenList = repositoryT.findByPhone(phone);
+                if (tokenList.isPresent()){
+                    repositoryT.updateByPhone(token,phone);
+                } else {
+                    Token token1 = new Token();
+                    token1.setPhone(phone);
+                    token1.setToken(token);
+                    repositoryT.save(token1);
+                }
                 obj.put("code", 200);
-                obj.put("msg","登录成功");
-                obj.put("token",token);
+                obj.put("msg", "登录成功");
+                obj.put("token", token);
             } else {
                 obj.put("code", 200);
                 obj.put("msg", "密码错误");
