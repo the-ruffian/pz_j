@@ -18,6 +18,6 @@ public interface TokenRepository extends JpaRepository<Token, Integer> {
     @Modifying
     @Transactional
     @Query(value = "update Token set token=?1 where phone=?2")
-    Optional<Token> updateByPhone(String token, String phone);
+    void updateByPhone(String token, String phone);
 
 }
