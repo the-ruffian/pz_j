@@ -40,21 +40,30 @@ public class UserController {
     * */
     @ApiOperation(value = "用户注册")
     @PostMapping(value = "/api/user/register", produces = "application/json;charset=UTF-8")
-    public User create(@RequestBody JSONObject jsonParam){
+    public Object create(@RequestBody JSONObject jsonParam){
         String username = jsonParam.getString("username");
         String password = jsonParam.getString("password");
         String email = jsonParam.getString("email");
         String phone = jsonParam.getString("phone");
         String sex = jsonParam.getString("sex");
         String md5Password = DigestUtils.md5DigestAsHex(password.getBytes());
-
+        Optional<User> userParam = repository.findByPhone(phone);
+        JSONObject obj = new JSONObject();
+        if (userParam.isPresent()){
+            obj.put("code",401);
+            obj.put("msg","该手机号已注册");
+        } else {
         User user = new User();
         user.setUsername(username);
         user.setPassword(md5Password);
         user.setEmail(email);
         user.setPhone(phone);
         user.setSex(sex);
-        return repository.save(user);
+        repository.save(user);
+        obj.put("code",200);
+        obj.put("msg", "尊敬的" + username + "用户，恭喜你注册成功");
+        }
+        return obj.toJSONString();
     }
 
     /*
