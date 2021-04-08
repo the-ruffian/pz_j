@@ -166,6 +166,7 @@ public class UserController {
                 obj.put("code", 200);
                 obj.put("msg", "登录成功");
                 obj.put("token", token);
+                obj.put("username", user.getUsername());
             } else {
                 obj.put("code", 200);
                 obj.put("msg", "密码错误");
