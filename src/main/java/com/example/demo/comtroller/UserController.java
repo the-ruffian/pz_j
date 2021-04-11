@@ -12,10 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @Api(tags = "用户模块")
@@ -31,8 +28,12 @@ public class UserController {
     * */
     @ApiOperation(value = "获取所有用户信息")
     @GetMapping("/api/user")
-    public List<User> getAll(){
-        return repository.findAll();
+    public Object getAll(){
+        List<User> userList = repository.findAll();
+        JSONObject obj = new JSONObject();
+        obj.put("result", userList);
+        obj.put("code", 200);
+        return obj.toJSONString();
     }
 
     /*
@@ -50,7 +51,7 @@ public class UserController {
         Optional<User> userParam = repository.findByPhone(phone);
         JSONObject obj = new JSONObject();
         if (userParam.isPresent()){
-            obj.put("code",401);
+            obj.put("code",400);
             obj.put("msg","该手机号已注册");
         } else {
         User user = new User();
@@ -60,8 +61,8 @@ public class UserController {
         user.setPhone(phone);
         user.setSex(sex);
         repository.save(user);
-        obj.put("code",200);
         obj.put("msg", "尊敬的" + username + "用户，恭喜你注册成功");
+        obj.put("code",200);
         }
         return obj.toJSONString();
     }
@@ -77,11 +78,13 @@ public class UserController {
         JSONObject obj = new JSONObject();
         if (userList.isPresent()){
             user = userList.get();
-            String username = user.getUsername();
-            obj.put("username", username);
-            return obj.toJSONString();
+            obj.put("code",200);
+            obj.put("result", user);
+        }   else {
+            obj.put("code", 400);
+            obj.put("msg", "没有此用户");
         }
-        return repository.findByPhone(phone).orElse(null);
+        return obj.toJSONString();
     }
     /*
     *  修改用户数据
@@ -89,7 +92,7 @@ public class UserController {
     @ApiOperation(value = "修改用户信息")
     @ApiParam(value = "{test:test}")
     @PutMapping(value = "/api/user/{phone}", produces = "application/json;charset=UTF-8")
-    public User update(@PathVariable("phone") String phone,
+    public Object update(@PathVariable("phone") String phone,
                        @RequestBody JSONObject jsonParam){
         String username = jsonParam.getString("username");
         String sex = jsonParam.getString("sex");
@@ -98,18 +101,23 @@ public class UserController {
         String md5Password = DigestUtils.md5DigestAsHex(password.getBytes());
         Optional<User> userList= repository.findByPhone(phone);
         System.out.println(userList);
-
+        JSONObject obj = new JSONObject();
         User user;
         if (userList.isPresent()){
            user = userList.get();
+            user.setUsername(username);
+            user.setPassword(md5Password);
+            user.setSex(sex);
+            user.setEmail(email);
+            repository.save(user);
+            obj.put("result",repository.save(user));
+            obj.put("msg","资料修改成功");
+            obj.put("code", 200);
         } else {
-            return null;
+            obj.put("msg","修改失败");
+            obj.put("code", 400);
         }
-        user.setUsername(username);
-        user.setPassword(md5Password);
-        user.setSex(sex);
-        user.setEmail(email);
-        return repository.save(user);
+        return obj.toJSONString();
     }
 
     /*
@@ -126,6 +134,7 @@ public class UserController {
             repository.deleteByPhone(phone);
         } else {
             obj.put("msg", "删除失败");
+            obj.put("code", 400);
         }
 
         return obj.toJSONString();
@@ -168,11 +177,11 @@ public class UserController {
                 obj.put("token", token);
                 obj.put("username", user.getUsername());
             } else {
-                obj.put("code", 200);
+                obj.put("code", 201);
                 obj.put("msg", "密码错误");
             }
         }else {
-            obj.put("code",200);
+            obj.put("code",401);
             obj.put("msg","账号不存在");
         }
         return obj.toJSONString();
