@@ -19,17 +19,21 @@ public class User {
 
     @ApiModelProperty(value = "用户名")
     @NotNull(message = "用户名不能为空")
+    @Column(nullable = false)
     private String username;
 
     @ApiModelProperty(value = "用户密码")
     @NotNull(message = "密码不能为空")
+    @Column(nullable = false)
     private String password;
 
     @ApiModelProperty(value = "电子邮箱")
     @NotNull(message = "邮箱不能为空")
+    @Column(nullable = false)
     private String email;
 
     @ApiModelProperty(value = "性别:中文")
+    @Column(nullable = false)
     @NotNull(message = "性别不能为空")
     private String sex;
 
