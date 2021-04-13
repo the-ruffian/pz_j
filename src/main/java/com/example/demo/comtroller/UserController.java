@@ -95,27 +95,22 @@ public class UserController {
     public Object update(@PathVariable("phone") String phone,
                        @RequestBody JSONObject jsonParam){
         String username = jsonParam.getString("username");
-        String sex = jsonParam.getString("sex");
-        String password = jsonParam.getString("password");
         String email = jsonParam.getString("email");
-        String md5Password = DigestUtils.md5DigestAsHex(password.getBytes());
         Optional<User> userList= repository.findByPhone(phone);
         System.out.println(userList);
         JSONObject obj = new JSONObject();
-        User user;
-        if (userList.isPresent()){
-           user = userList.get();
-            user.setUsername(username);
-            user.setPassword(md5Password);
-            user.setSex(sex);
-            user.setEmail(email);
-            repository.save(user);
-            obj.put("result",repository.save(user));
+        if (userList.isPresent()
+        && username != null && username.length() > 0
+        && email != null && email.length() > 0){
+           repository.updateByPhone(email, username, phone);
             obj.put("msg","资料修改成功");
             obj.put("code", 200);
-        } else {
-            obj.put("msg","修改失败");
-            obj.put("code", 400);
+        } else if (username.length() <= 0){
+            obj.put("msg","修改失败，username不能为空");
+            obj.put("code", 401);
+        } else if (email.length() <=0) {
+            obj.put("msg","修改失败，email不能为空");
+            obj.put("code", 401);
         }
         return obj.toJSONString();
     }
