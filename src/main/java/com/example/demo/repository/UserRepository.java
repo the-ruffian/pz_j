@@ -18,4 +18,11 @@ public interface UserRepository extends JpaRepository<User, Integer>{
     @Query(value = "delete from User where phone=?1")
     void deleteByPhone(String phone);
 
+    @Modifying
+    @Transactional
+    @Query(value = "update User u set u.email =?1, u.username =?2 " +
+            "where u.phone =?3 and ?1 is not null and ?1 <> ''" +
+            "and ?2 is not null and ?2 <> '' ")
+    void updateByPhone(String email, String username, String phone);
+
 }
