@@ -29,10 +29,11 @@ public class UserController {
     @ApiOperation(value = "获取所有用户信息")
     @GetMapping("/api/user")
     public Object getAll(){
-        List<User> userList = repository.findAll();
+//        List<User> userList = repository.findAll();
         JSONObject obj = new JSONObject();
+        List<Object> userList = repository.findAllUser();
         obj.put("result", userList);
-        obj.put("code", 200);
+        obj.put("code",200);
         return obj.toJSONString();
     }
 
