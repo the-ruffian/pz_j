@@ -14,9 +14,6 @@ public interface UserRepository extends JpaRepository<User, Integer>{
     @Query(value = "select u from User u where u.phone=?1")
     Optional<User> findByPhone(String phone);
 
-    @Query(value = "select u.phone, u.username, u.sex,u.email from User u")
-    List<Object> findAllUser();
-
     @Modifying
     @Transactional
     @Query(value = "delete from User where phone=?1")
