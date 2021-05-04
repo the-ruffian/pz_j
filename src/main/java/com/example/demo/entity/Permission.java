@@ -47,6 +47,9 @@ public class Permission {
     @ApiModelProperty(value = "父级id")
     private Integer parent_id;
 
+    @ApiModelProperty(value = "权限控制")
+    private String code;
+
     public Integer getId() {
         return id;
     }
@@ -109,5 +112,13 @@ public class Permission {
 
     public void setParent_id(Integer parent_id) {
         this.parent_id = parent_id;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 }
