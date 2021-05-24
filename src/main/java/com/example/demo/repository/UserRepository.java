@@ -1,5 +1,6 @@
 package com.example.demo.repository;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.example.demo.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -9,7 +10,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-public interface UserRepository extends JpaRepository<User, Integer>{
+public interface UserRepository extends BaseMapper<User> {
 
     @Query(value = "select u from User u where u.phone=?1")
     Optional<User> findByPhone(String phone);
