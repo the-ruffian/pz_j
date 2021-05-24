@@ -62,9 +62,9 @@ public class User {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
-    }
+//    public String getPassword() {
+//        return password;
+//    }
 
     public void setPassword(String password) {
         this.password = password;
@@ -92,5 +92,10 @@ public class User {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    @Override
+    public String toString(){
+        return "User [id=" + id + ",username" + username + ",email" + email + ",sex" + sex + ",phone" + phone + "]";
     }
 }
