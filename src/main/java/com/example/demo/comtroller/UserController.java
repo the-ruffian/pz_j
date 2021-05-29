@@ -171,7 +171,9 @@ public class UserController {
         Integer integer = userDao.selectCount(userQueryWrapper);
         JSONObject obj = new JSONObject();
         if (integer != 0){
-            User user = userDao.selectOne(userQueryWrapper);
+            QueryWrapper<User> userQueryWrapper1 = new QueryWrapper<>();
+            userQueryWrapper1.select("username","password").eq("phone",phone);
+            User user = userDao.selectOne(userQueryWrapper1);
             if (md5Password.equals(user.getPassword())){
                 Map<String, String> payload = new HashMap<>();
                 payload.put("phone", phone);
