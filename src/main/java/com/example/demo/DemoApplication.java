@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
     @SpringBootApplication 标注一个主程序，说明这是一个springboot应用
 */
 @SpringBootApplication
-@MapperScan("com.example.demo.repository")
+@MapperScan("com.example.demo.mapper")
 public class DemoApplication {
 
     public static void main(String[] args) {
