@@ -68,6 +68,12 @@
             <artifactId>mybatis-plus-boot-starter</artifactId>
             <version>3.4.2</version>
         </dependency>
+        <!--    为了简化代码，引入 lombok 依赖（减少 getter、setter 等方法）    -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.20</version>
+        </dependency>
     </dependencies>
 
     <!--这个插件作用， 将应用打包成可执行的jar包 右边lifecycle的package执行-->
