@@ -1,7 +1,11 @@
 package com.example.demo.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,66 +13,19 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
-@Entity
-@ApiModel(value = "用户")
+@Data
+@TableName(value = "user")//指定表名
+@ApiModel(value = "用户表")
 public class User {
-
-    @Id
-    @GeneratedValue
+    @TableId(value = "id", type = IdType.AUTO)//指定自增策略
     private Integer id;
-
-    @ApiModelProperty(value = "用户名")
-    @NotNull(message = "用户名不能为空")
-    @Column(nullable = false)
-    private String username;
-
     @ApiModelProperty(value = "用户密码")
-    @NotNull(message = "密码不能为空")
-    @Column(nullable = false)
     private String password;
-
-    @ApiModelProperty(value = "电子邮箱")
-    @NotNull(message = "邮箱不能为空")
-    @Column(nullable = false)
-    private String email;
-
-    @ApiModelProperty(value = "性别:中文")
-    @Column(nullable = false)
-    @NotNull(message = "性别不能为空")
-    private String sex;
-
-    @ApiModelProperty(value = "手机号", required = true)
-    @Column(length = 12, nullable = false)
-    @NotNull(message = "手机号不能为空")
+    @ApiModelProperty(value = "用户手机号")
     private String phone;
-
-    public User() {
-
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-//    public String getPassword() {
-//        return password;
-//    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
+    private String sex;
+    @ApiModelProperty(value = "用户名")
+    private String username;
 
     public String getEmail() {
         return email;
@@ -78,12 +35,22 @@ public class User {
         this.email = email;
     }
 
-    public String getSex() {
-        return sex;
+    private String email;
+
+    public Integer getId() {
+        return id;
     }
 
-    public void setSex(String sex) {
-        this.sex = sex;
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getPhone() {
@@ -94,8 +61,19 @@ public class User {
         this.phone = phone;
     }
 
-    @Override
-    public String toString(){
-        return "User [id=" + id + ",username" + username + ",email" + email + ",sex" + sex + ",phone" + phone + "]";
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }
