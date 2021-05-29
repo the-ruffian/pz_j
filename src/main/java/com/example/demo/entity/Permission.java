@@ -1,24 +1,22 @@
 package com.example.demo.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import lombok.Data;
 import javax.validation.constraints.NotNull;
 
-@Entity
+@Data
+@TableName(value = "permission")
 @ApiModel(value = "资源")
 public class Permission {
-    @Id
-    @GeneratedValue
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     @ApiModelProperty(value = "类型")
     @NotNull(message = "类型不能为空")
-    @Column(nullable = false, length = 1)
     private String type;
 
     @ApiModelProperty(value = "图标")
@@ -26,22 +24,18 @@ public class Permission {
 
     @ApiModelProperty(value = "菜单层级")
     @NotNull(message = "层级不能为空")
-    @Column(nullable = false,length = 1)
     private String level;
 
     @ApiModelProperty(value = "路由地址")
     @NotNull(message = "路由地址不能为空")
-    @Column(nullable = false)
     private String url;
 
     @ApiModelProperty(value = "菜单名")
     @NotNull(message = "不能为空")
-    @Column(nullable = false,length = 20)
     private String permission_name;
 
     @ApiModelProperty(value = "顺序")
     @NotNull(message = "不能为空")
-    @Column(nullable = false)
     private Integer sort_num;
 
     @ApiModelProperty(value = "父级id")

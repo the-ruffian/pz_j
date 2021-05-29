@@ -1,24 +1,23 @@
 package com.example.demo.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
+
 import javax.validation.constraints.NotNull;
 
-@Entity
+@Data
+@TableName(value = "token")
 public class Token {
 
-    @Id
-    @GeneratedValue
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     @NotNull
-    @Column(length = 1000)
     private String token;
 
 
-    @Column(length = 12, nullable = false)
     private String phone;
 
     public Token(){
