@@ -3,6 +3,8 @@ package com.example.demo.comtroller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.entity.Token;
 import com.example.demo.entity.User;
 import com.example.demo.mapper.TokenDao;
@@ -28,13 +30,15 @@ public class UserController {
     * 1.获取所有信息
     * */
     @ApiOperation(value = "获取所有用户信息")
-    @GetMapping("/api/user")
-    public Object getAll(){
+    @GetMapping("/api/user/{pageNo}")
+    public Object getAll(@PathVariable("pageNo")Integer pageNo){
         QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
         userQueryWrapper.select("phone","email","sex","username");
-        List<User> userList = userDao.selectList(userQueryWrapper);
+        Page<User> userPage = new Page<>(pageNo,15);
+        IPage<User> userIPage = userDao.selectPage(userPage,userQueryWrapper);
+//        List<User> userList = userDao.selectList(userQueryWrapper);
         JSONObject obj = new JSONObject();
-        obj.put("result", userList);
+        obj.put("result", userIPage);
         obj.put("code",200);
         return obj.toJSONString();
     }
@@ -74,27 +78,6 @@ public class UserController {
     }
 
     /*
-    * 3.通过手机号查用户
-    * */
-    @ApiOperation(value = "根据手机号获取用户")
-    @GetMapping("/api/user/{phone}")
-    public Object findByPhone(@PathVariable("phone")String phone){
-        QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
-        userQueryWrapper.select("phone","email","sex","username").eq("phone",phone);
-        QueryWrapper<User> userHave = new QueryWrapper<>();
-        userHave.select("id").eq("phone",phone);
-        Integer integer = userDao.selectCount(userHave);
-        List<User> userList = userDao.selectList(userQueryWrapper);
-        JSONObject obj = new JSONObject();
-        if (integer == 0){
-            obj.put("msg","没有此用户");
-        }   else {
-            obj.put("result", userList);
-        }
-        obj.put("code", 200);
-        return obj.toJSONString();
-    }
-    /*
     *  修改用户数据
     * */
     @ApiOperation(value = "修改用户信息")
@@ -120,10 +103,10 @@ public class UserController {
             userDao.updateById(user);
             obj.put("msg","资料修改成功");
             obj.put("code", 200);
-        } else if (username.length() <= 0){
+        } else if (username == null || username.length() == 0){
             obj.put("msg","修改失败，username不能为空");
             obj.put("code", 401);
-        } else if (email.length() <=0) {
+        } else if (email == null || email.length() ==0) {
             obj.put("msg","修改失败，email不能为空");
             obj.put("code", 401);
         }
