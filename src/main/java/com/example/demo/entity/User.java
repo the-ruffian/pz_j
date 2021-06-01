@@ -17,7 +17,7 @@ public class User {
     private String password;
     @ApiModelProperty(value = "用户手机号")
     private String phone;
-    private String sex;
+    private String gender;
     @ApiModelProperty(value = "用户名")
     private String username;
 
@@ -55,12 +55,12 @@ public class User {
         this.phone = phone;
     }
 
-    public String getSex() {
-        return sex;
+    public String getgender() {
+        return gender;
     }
 
-    public void setSex(String sex) {
-        this.sex = sex;
+    public void setgender(String gender) {
+        this.gender = gender;
     }
 
     public String getUsername() {

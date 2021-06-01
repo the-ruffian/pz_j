@@ -33,7 +33,7 @@ public class UserController {
     @GetMapping("/api/user/{pageNo}")
     public Object getAll(@PathVariable("pageNo")Integer pageNo){
         QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
-        userQueryWrapper.select("phone","email","sex","username");
+        userQueryWrapper.select("phone","email","gender","username");
         Page<User> userPage = new Page<>(pageNo,15);
         IPage<User> userIPage = userDao.selectPage(userPage,userQueryWrapper);
 //        List<User> userList = userDao.selectList(userQueryWrapper);
@@ -54,7 +54,7 @@ public class UserController {
         String password = jsonParam.getString("password");
         String email = jsonParam.getString("email");
         String phone = jsonParam.getString("phone");
-        String sex = jsonParam.getString("sex");
+        String gender = jsonParam.getString("gender");
         String md5Password = DigestUtils.md5DigestAsHex(password.getBytes());
         QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
         userQueryWrapper.select("phone").like("phone",phone);
@@ -64,7 +64,7 @@ public class UserController {
             User user = new User();
             user.setPhone(phone);
             user.setPassword(md5Password);
-            user.setSex(sex);
+            user.setgender(gender);
             user.setUsername(username);
             user.setEmail(email);
             userDao.insert(user);
