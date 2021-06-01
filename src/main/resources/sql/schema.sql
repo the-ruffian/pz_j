@@ -2,7 +2,7 @@
 create table if not exists `user`
 (
     `id`          bigint(20) unsigned not null auto_increment comment '主键',
-    `user_name`   varchar(20)         not null comment '用户名',
+    `username`   varchar(20)         not null comment '用户名',
     `phone`       varchar(12)         not null comment '电话',
     `password`    varchar(64)         not null comment '密码',
     `status`      tinyint(1) default 1 comment '账号状态 0封号1正常',
@@ -13,7 +13,17 @@ create table if not exists `user`
     `create_time` datetime comment '创建时间',
     `update_time` datetime comment '修改时间',
     primary key (`id`)
-);
+) engine = InnoDB
+  default charset = utf8 comment '用户表';
+# token表
+create table if not exists `token`
+(
+    `id`      bigint(20) unsigned not null auto_increment comment '主键',
+    `phone`   varchar(12)         not null comment '电话',
+    `token`   varchar(200)        not null comment 'token',
+    primary key (id)
+) engine = InnoDB
+  default charset = utf8 comment 'token表';
 
 # 角色表
 CREATE TABLE IF NOT EXISTS `role`
@@ -30,13 +40,12 @@ CREATE TABLE IF NOT EXISTS `role`
 create table if not exists `user_role`
 (
     `id`          bigint(20) unsigned auto_increment not null comment '主键',
-    `user_id`     bigint(20)                         not null comment '用户主键',
+    `user_id`     bigint(20) unsigned                not null comment '用户主键',
     `role_id`     bigint(20) unsigned                not null comment '角色主键',
     `create_time` datetime comment '创建时间',
     `update_time` datetime comment '修改时间',
     primary key (`id`),
-    foreign key (user_id) references user (id),
-    foreign key (role_id) references role (id)
+    foreign key (user_id) references user (id)
 ) ENGINE = InnoDB
   default charset = utf8 comment '用户角色表';
 #资源表
@@ -53,6 +62,7 @@ create table if not exists `permission`
     `parent_id`       bigint(20) comment '父菜单id',
     `remark`          varchar(128) comment '备注',
     `create_time`     datetime comment '创建时间',
-    `update_time`     datetime comment '修改时间'
+    `update_time`     datetime comment '修改时间',
+    primary key (id)
 ) engine = InnoDB
   default charset = utf8 comment '资源表';
