@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 @Data
 @TableName(value = "permission")
@@ -43,6 +44,39 @@ public class Permission {
 
     @ApiModelProperty(value = "权限控制")
     private String code;
+
+    @ApiModelProperty(value = "remark")
+    private String remark;
+
+    @ApiModelProperty(value = "创建时间")
+    private Date create_time;
+
+    @ApiModelProperty(value = "修改时间")
+    private Date update_time;
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public Date getCreate_time() {
+        return create_time;
+    }
+
+    public void setCreate_time(Date create_time) {
+        this.create_time = create_time;
+    }
+
+    public Date getUpdate_time() {
+        return update_time;
+    }
+
+    public void setUpdate_time(Date update_time) {
+        this.update_time = update_time;
+    }
 
     public Integer getId() {
         return id;
