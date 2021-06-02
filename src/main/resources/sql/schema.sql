@@ -66,3 +66,16 @@ create table if not exists `permission`
     primary key (id)
 ) engine = InnoDB
   default charset = utf8 comment '资源表';
+
+#角色权限表
+create table if not exists `role_permission`
+(
+    `id`            bigint(20) unsigned auto_increment not null comment '主键',
+    `role_id`       bigint(20) unsigned                not null comment '用户主键',
+    `permission_id` bigint(20) unsigned                not null comment '权限主键',
+    `create_time`   datetime comment '创建时间',
+    `update_time`   datetime comment '修改时间',
+    primary key (id)
+) engine = InnoDB
+  default
+      charset = utf8 comment '角色权限表';
