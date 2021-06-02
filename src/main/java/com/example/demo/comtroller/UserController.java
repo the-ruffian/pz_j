@@ -30,23 +30,10 @@ public class UserController {
     * 1.获取所有信息
     * */
     @ApiOperation(value = "获取所有用户信息")
-    @GetMapping("/api/user/{pageNo}")
-    public Object getAll(@PathVariable("pageNo")Integer pageNo){
-        QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
-        userQueryWrapper.select("phone","email","gender","username");
-        Page<User> userPage = new Page<>(pageNo,15);
-        IPage<User> userIPage = userDao.selectPage(userPage,userQueryWrapper);
-//        List<User> userList = userDao.selectList(userQueryWrapper);
-        JSONObject obj = new JSONObject();
-        obj.put("result", userIPage);
-        obj.put("code",200);
-        return obj.toJSONString();
-    }
-
     @PostMapping(value = "/api/user/list", produces = "application/json; charset=UTF-8")
     public Object select(@RequestBody JSONObject jsonParam){
         QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
-        Page<User> pageNo = new Page<>(jsonParam.getInteger("pageNo"), 15);
+        Page<User> pageNo = new Page<>(jsonParam.getInteger("pageNo"), jsonParam.getInteger("pageSize"));
         IPage<User> userList =userDao.selectPage(pageNo,userQueryWrapper
                 .select("phone","gender","username","email")
                 .like((null!=jsonParam.get("username")&& ""!=jsonParam.get("username")),"username",jsonParam.get("username"))
