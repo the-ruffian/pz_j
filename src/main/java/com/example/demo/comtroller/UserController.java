@@ -43,6 +43,22 @@ public class UserController {
         return obj.toJSONString();
     }
 
+    @PostMapping(value = "/api/user/list", produces = "application/json; charset=UTF-8")
+    public Object select(@RequestBody JSONObject jsonParam){
+        QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
+        Page<User> pageNo = new Page<>(jsonParam.getInteger("pageNo"), 15);
+        IPage<User> userList =userDao.selectPage(pageNo,userQueryWrapper
+                .select("phone","gender","username","email")
+                .like((null!=jsonParam.get("username")&& ""!=jsonParam.get("username")),"username",jsonParam.get("username"))
+                .like((null!=jsonParam.get("phone")&& ""!= jsonParam.get("phone")),"phone",jsonParam.getString("phone"))
+                .eq((null!=jsonParam.get("gender")&& ""!=jsonParam.get("gender")),"gender",jsonParam.get("gender"))
+                .like((null!=jsonParam.get("email")&&""!=jsonParam.get("email")),"email",jsonParam.get("email")));
+        JSONObject obj = new JSONObject();
+        obj.put("code",200);
+        obj.put("result",userList);
+        return obj.toJSONString();
+    }
+
 
     /*
     * 2.创建一条信息
