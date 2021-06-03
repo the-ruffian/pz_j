@@ -32,14 +32,16 @@ public class UserController {
     @ApiOperation(value = "获取所有用户信息")
     @PostMapping(value = "/api/user/list", produces = "application/json; charset=UTF-8")
     public Object select(@RequestBody JSONObject jsonParam){
+        JSONObject search;
+        search = jsonParam.getJSONObject("search");
         QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
         Page<User> pageNo = new Page<>(jsonParam.getInteger("pageNo"), jsonParam.getInteger("pageSize"));
         IPage<User> userList =userDao.selectPage(pageNo,userQueryWrapper
                 .select("phone","gender","username","email")
-                .like((null!=jsonParam.get("username")&& ""!=jsonParam.get("username")),"username",jsonParam.get("username"))
-                .like((null!=jsonParam.get("phone")&& ""!= jsonParam.get("phone")),"phone",jsonParam.getString("phone"))
-                .eq((null!=jsonParam.get("gender")&& ""!=jsonParam.get("gender")),"gender",jsonParam.get("gender"))
-                .like((null!=jsonParam.get("email")&&""!=jsonParam.get("email")),"email",jsonParam.get("email")));
+                .like((null!=search.get("username")&& ""!=search.get("username")),"username",search.get("username"))
+                .like((null!=search.get("phone")&& ""!= search.get("phone")),"phone",search.getString("phone"))
+                .eq((null!=search.get("gender")&& ""!=search.get("gender")),"gender",search.get("gender"))
+                .like((null!=search.get("email")&&""!=search.get("email")),"email",search.get("email")));
         JSONObject obj = new JSONObject();
         obj.put("code",200);
         obj.put("result",userList);
