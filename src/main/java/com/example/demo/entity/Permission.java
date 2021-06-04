@@ -7,7 +7,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
+import java.sql.Timestamp;
+
 
 @Data
 @TableName(value = "permission")
@@ -33,14 +34,14 @@ public class Permission {
 
     @ApiModelProperty(value = "菜单名")
     @NotNull(message = "不能为空")
-    private String permission_name;
+    private String permissionName;
 
     @ApiModelProperty(value = "顺序")
     @NotNull(message = "不能为空")
-    private Integer sort_num;
+    private Integer sortNum;
 
     @ApiModelProperty(value = "父级id")
-    private Integer parent_id;
+    private Integer parentId;
 
     @ApiModelProperty(value = "权限控制")
     private String code;
@@ -49,34 +50,11 @@ public class Permission {
     private String remark;
 
     @ApiModelProperty(value = "创建时间")
-    private Date create_time;
+    private Timestamp createTime;
 
     @ApiModelProperty(value = "修改时间")
-    private Date update_time;
+    private Timestamp updateTime;
 
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
-
-    public Date getCreate_time() {
-        return create_time;
-    }
-
-    public void setCreate_time(Date create_time) {
-        this.create_time = create_time;
-    }
-
-    public Date getUpdate_time() {
-        return update_time;
-    }
-
-    public void setUpdate_time(Date update_time) {
-        this.update_time = update_time;
-    }
 
     public Integer getId() {
         return id;
@@ -118,28 +96,28 @@ public class Permission {
         this.url = url;
     }
 
-    public String getPermission_name() {
-        return permission_name;
+    public String getPermissionName() {
+        return permissionName;
     }
 
-    public void setPermission_name(String permission_name) {
-        this.permission_name = permission_name;
+    public void setPermissionName(String permissionName) {
+        this.permissionName = permissionName;
     }
 
-    public Integer getSort_num() {
-        return sort_num;
+    public Integer getSortNum() {
+        return sortNum;
     }
 
-    public void setSort_num(Integer sort_num) {
-        this.sort_num = sort_num;
+    public void setSortNum(Integer sortNum) {
+        this.sortNum = sortNum;
     }
 
-    public Integer getParent_id() {
-        return parent_id;
+    public Integer getParentId() {
+        return parentId;
     }
 
-    public void setParent_id(Integer parent_id) {
-        this.parent_id = parent_id;
+    public void setParentId(Integer parentId) {
+        this.parentId = parentId;
     }
 
     public String getCode() {
@@ -148,5 +126,29 @@ public class Permission {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public Timestamp getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
+    }
+
+    public Timestamp getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Timestamp updateTime) {
+        this.updateTime = updateTime;
     }
 }

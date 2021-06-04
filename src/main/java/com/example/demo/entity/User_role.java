@@ -12,8 +12,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
+import java.sql.Timestamp;
 
-import java.util.Date;
 
 @Data
 @TableName(value = "user_role")
@@ -22,13 +22,13 @@ public class User_role {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    private Integer user_id;
+    private Integer userId;
 
-    private Integer role_id;
+    private Integer roleId;
 
-    private Date create_time;
+    private Timestamp createTime;
 
-    private Date update_time;
+    private Timestamp updateTime;
 
     public Integer getId() {
         return id;
@@ -38,35 +38,35 @@ public class User_role {
         this.id = id;
     }
 
-    public Integer getUser_id() {
-        return user_id;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setUser_id(Integer user_id) {
-        this.user_id = user_id;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
-    public Integer getRole_id() {
-        return role_id;
+    public Integer getRoleId() {
+        return roleId;
     }
 
-    public void setRole_id(Integer role_id) {
-        this.role_id = role_id;
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
     }
 
-    public Date getCreate_time() {
-        return create_time;
+    public Timestamp getCreateTime() {
+        return createTime;
     }
 
-    public void setCreate_time(Date create_time) {
-        this.create_time = create_time;
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
     }
 
-    public Date getUpdate_time() {
-        return update_time;
+    public Timestamp getUpdateTime() {
+        return updateTime;
     }
 
-    public void setUpdate_time(Date update_time) {
-        this.update_time = update_time;
+    public void setUpdateTime(Timestamp updateTime) {
+        this.updateTime = updateTime;
     }
 }

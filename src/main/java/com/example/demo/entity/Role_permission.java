@@ -12,8 +12,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
+import java.sql.Timestamp;
 
-import java.util.Date;
 
 @Data
 @TableName(value = "role_permission")
@@ -22,13 +22,13 @@ public class Role_permission {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    private Integer role_id;
+    private Integer roleId;
 
-    private Integer permission_id;
+    private Integer permissionId;
 
-    private Date create_time;
+    private Timestamp createTime;
 
-    private Date update_time;
+    private Timestamp updateTime;
 
     public Integer getId() {
         return id;
@@ -39,34 +39,50 @@ public class Role_permission {
     }
 
     public Integer getRole_id() {
-        return role_id;
+        return roleId;
     }
 
-    public void setRole_id(Integer role_id) {
-        this.role_id = role_id;
+    public void setRole_id(Integer roleId) {
+        this.roleId = roleId;
     }
 
     public Integer getPermission_id() {
-        return permission_id;
+        return permissionId;
     }
 
-    public void setPermission_id(Integer permission_id) {
-        this.permission_id = permission_id;
+    public void setPermission_id(Integer permissionId) {
+        this.permissionId = permissionId;
     }
 
-    public Date getCreate_time() {
-        return create_time;
+    public Integer getRoleId() {
+        return roleId;
     }
 
-    public void setCreate_time(Date create_time) {
-        this.create_time = create_time;
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
     }
 
-    public Date getUpdate_time() {
-        return update_time;
+    public Integer getPermissionId() {
+        return permissionId;
     }
 
-    public void setUpdate_time(Date update_time) {
-        this.update_time = update_time;
+    public void setPermissionId(Integer permissionId) {
+        this.permissionId = permissionId;
+    }
+
+    public Timestamp getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
+    }
+
+    public Timestamp getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Timestamp updateTime) {
+        this.updateTime = updateTime;
     }
 }

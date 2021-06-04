@@ -3,7 +3,7 @@
  * @CreatedBy:IntelliJ IDEA
  * @Author: the-ruffian
  * @Date: 2021-06-02 10:09
- * @LastEditTime: 2021-06-02 10:09
+ * @LastEditTime: 2021-6-4 13:10:17
  * @LastEditors: the-ruffian
  */
 package com.example.demo.entity;
@@ -12,8 +12,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
+import java.sql.Timestamp;
 
-import java.util.Date;
 
 @Data
 @TableName(value = "role")
@@ -22,13 +22,13 @@ public class Role {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    private String role_name;
+    private String roleName;
 
     private String explain;
 
-    private Date create_time;
+    private Timestamp createTime;
 
-    private Date update_time;
+    private Timestamp updateTime;
 
     public Integer getId() {
         return id;
@@ -39,11 +39,11 @@ public class Role {
     }
 
     public String getRole_name() {
-        return role_name;
+        return roleName;
     }
 
-    public void setRole_name(String role_name) {
-        this.role_name = role_name;
+    public void setRole_name(String roleName) {
+        this.roleName = roleName;
     }
 
     public String getExplain() {
@@ -54,19 +54,27 @@ public class Role {
         this.explain = explain;
     }
 
-    public Date getCreate_time() {
-        return create_time;
+    public String getRoleName() {
+        return roleName;
     }
 
-    public void setCreate_time(Date create_time) {
-        this.create_time = create_time;
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
 
-    public Date getUpdate_time() {
-        return update_time;
+    public Timestamp getCreateTime() {
+        return createTime;
     }
 
-    public void setUpdate_time(Date update_time) {
-        this.update_time = update_time;
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
+    }
+
+    public Timestamp getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Timestamp updateTime) {
+        this.updateTime = updateTime;
     }
 }
