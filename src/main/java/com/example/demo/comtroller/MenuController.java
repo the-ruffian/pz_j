@@ -11,16 +11,12 @@ package com.example.demo.comtroller;
 import com.alibaba.fastjson.JSONObject;
 import com.example.demo.entity.Permission;
 import com.example.demo.mapper.UserRoleDao;
-import com.example.demo.vos.PermissionVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -34,9 +30,6 @@ public class MenuController {
     public Object menu(@RequestBody JSONObject jsonParam){
         String phone = jsonParam.getString("phone");
         List<Permission> allMenu = userRoleDao.selectByPhone(phone);
-        List<PermissionVo> permissionVoList = new ArrayList<>();
-        List<PermissionVo> permissionThree = new ArrayList<>();
-        List<PermissionVo> permissionTwo = new ArrayList<>();
         JSONObject obj = new JSONObject();
 //        allMenu.forEach(i -> {
 //            if (i.getLevel().equals("1")) {
