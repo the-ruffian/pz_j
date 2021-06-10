@@ -38,31 +38,53 @@ public class MenuController {
         List<PermissionVo> permissionThree = new ArrayList<>();
         List<PermissionVo> permissionTwo = new ArrayList<>();
         JSONObject obj = new JSONObject();
-        allMenu.forEach(i -> {
-            if (i.getLevel().equals("1")) {
-                for (Permission child: allMenu){
-                    if (child.getLevel().equals("2") && child.getParentId().equals(i.getId())){
-                        PermissionVo permissionVo = new PermissionVo();
+//        allMenu.forEach(i -> {
+//            if (i.getLevel().equals("1")) {
+//                for (Permission child: allMenu){
+//                    if (child.getLevel().equals("2") && child.getParentId().equals(i.getId())){
+//                        PermissionVo permissionVo = new PermissionVo();
+//                        for (Permission children:allMenu){
+//                            if (children.getLevel().equals("3") && children.getParentId().equals(child.getId())) {
+//                                PermissionVo permissionVo1 = new PermissionVo();
+//                                BeanUtils.copyProperties(children, permissionVo1);
+//                                permissionThree.add(permissionVo1);
+//                            }
+//                            permissionVo.setChild(permissionThree);
+//                        }
+//                        BeanUtils.copyProperties(child, permissionVo);
+//                        permissionTwo.add(permissionVo);
+//                    }
+//                }
+//
+//                PermissionVo permissionVo = new PermissionVo();
+//                permissionVo.setChild(permissionTwo);
+//                BeanUtils.copyProperties(i, permissionVo);
+//                permissionVoList.add(permissionVo);
+//            }
+//        });
+        for (Permission top:allMenu){
+            if (top.getParentId().equals(0) && top.getLevel().equals("1")){
+                JSONObject childOBJ = new JSONObject();
+                for (Permission child:allMenu){
+                    if (child.getParentId().equals(top.getId())){
+                        JSONObject childrenOBJ = new JSONObject();
                         for (Permission children:allMenu){
-                            if (children.getLevel().equals("3") && children.getParentId().equals(child.getId())) {
-                                PermissionVo permissionVo1 = new PermissionVo();
-                                BeanUtils.copyProperties(children, permissionVo1);
-                                permissionThree.add(permissionVo1);
+                            if (children.getParentId().equals(child.getId())){
+                                childrenOBJ.put("result",children);
+                                childrenOBJ.toJSONString();
                             }
-                            permissionVo.setChild(permissionThree);
                         }
-                        BeanUtils.copyProperties(child, permissionVo);
-                        permissionTwo.add(permissionVo);
+                        childOBJ.put("result",child);
+                        childOBJ.put("child",childrenOBJ);
+                        childOBJ.toJSONString();
                     }
                 }
-
-                PermissionVo permissionVo = new PermissionVo();
-                permissionVo.setChild(permissionTwo);
-                BeanUtils.copyProperties(i, permissionVo);
-                permissionVoList.add(permissionVo);
+                obj.put("code",200);
+                obj.put("result",top);
+                obj.put("child",childOBJ);
             }
-        });
-        obj.put("result",permissionVoList);
+        }
+//        obj.put("result",permissionVoList);
         return obj.toJSONString();
     }
 }
