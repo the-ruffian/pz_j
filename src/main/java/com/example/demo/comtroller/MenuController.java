@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@Api(value = "菜单权限")
+@Api(tags = "菜单权限")
 public class MenuController {
     @Autowired
     UserRoleDao userRoleDao;
