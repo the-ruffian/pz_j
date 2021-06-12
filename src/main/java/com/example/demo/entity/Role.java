@@ -38,11 +38,11 @@ public class Role {
         this.id = id;
     }
 
-    public String getRole_name() {
+    public String getRoleName() {
         return roleName;
     }
 
-    public void setRole_name(String roleName) {
+    public void setRoleName(String roleName) {
         this.roleName = roleName;
     }
 
@@ -52,14 +52,6 @@ public class Role {
 
     public void setExplain(String explain) {
         this.explain = explain;
-    }
-
-    public String getRoleName() {
-        return roleName;
-    }
-
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
     }
 
     public Timestamp getCreateTime() {
