@@ -46,7 +46,7 @@ public class Role {
         this.roleName = roleName;
     }
 
-    public String getExplain() {
+    public String getNote() {
         return note;
     }
 
