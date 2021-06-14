@@ -24,7 +24,7 @@ public class Role {
 
     private String roleName;
 
-    private String explain;
+    private String note;
 
     private Timestamp createTime;
 
@@ -47,11 +47,11 @@ public class Role {
     }
 
     public String getExplain() {
-        return explain;
+        return note;
     }
 
-    public void setExplain(String explain) {
-        this.explain = explain;
+    public void setNote(String note) {
+        this.note = note;
     }
 
     public Timestamp getCreateTime() {
