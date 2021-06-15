@@ -136,7 +136,7 @@ public class RoleController {
             rolePermissionDao.delete(role_permissionQueryWrapper.eq("role_id",roleID));
         }
         roleDao.delete(roleQueryWrapper.eq("role_name", roleName));
-        obj.put("result", "角色"+roleName+"删除成功");
+        obj.put("msg", "角色"+roleName+"删除成功");
         obj.put("code",200);
         return obj.toJSONString();
     }
