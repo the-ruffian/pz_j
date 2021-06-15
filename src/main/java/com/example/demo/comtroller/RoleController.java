@@ -3,6 +3,8 @@ package com.example.demo.comtroller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.entity.Role;
 import com.example.demo.entity.Role_permission;
 import com.example.demo.entity.User_role;
@@ -31,11 +33,18 @@ public class RoleController {
     RolePermissionDao rolePermissionDao;
     @ApiOperation(value = "获取所有角色")
     @PostMapping(value = "/api/role/list", produces = "application/json; charset=UTF-8")
-    public Object roleList() {
-        JSONObject obj = new JSONObject();
+    public Object roleList(@RequestBody JSONObject jsonParam) {
+        JSONObject search;
+        search = jsonParam.getJSONObject("search");
         QueryWrapper<Role> roleQueryWrapper = new QueryWrapper<>();
-        List<Role> roleList = roleDao.selectList(roleQueryWrapper.select("role_name"));
-        obj.put("result",roleList);
+        Page<Role> rolePage = new Page<>(jsonParam.getInteger("pageNo"), jsonParam.getInteger("pageSize"));
+        IPage<Role> roleIPage = roleDao.selectPage(rolePage, roleQueryWrapper
+                .select("role_name","note","create_time","update_time")
+                .like(null != search.get("roleName") && "" != search.get("roleName"),"role_name",search.get("roleName"))
+                .like(null != search.get("note") && "" != search.get("note"),"note",search.get("note"))
+        );
+        JSONObject obj = new JSONObject();
+        obj.put("result",rolePage);
         obj.put("code",200);
         return obj.toJSONString();
     }
