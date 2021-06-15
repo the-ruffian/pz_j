@@ -15,11 +15,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 
 @RestController
@@ -41,10 +39,9 @@ public class RoleController {
         IPage<Role> roleIPage = roleDao.selectPage(rolePage, roleQueryWrapper
                 .select("role_name","note","create_time","update_time")
                 .like(null != search.get("roleName") && "" != search.get("roleName"),"role_name",search.get("roleName"))
-                .like(null != search.get("note") && "" != search.get("note"),"note",search.get("note"))
-        );
+                .like(null != search.get("note") && "" != search.get("note"),"note",search.get("note")));
         JSONObject obj = new JSONObject();
-        obj.put("result",rolePage);
+        obj.put("result",roleIPage);
         obj.put("code",200);
         return obj.toJSONString();
     }
@@ -59,15 +56,24 @@ public class RoleController {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); //df.format(day)
         JSONObject obj = new JSONObject();
         if (roleDao.selectCount(roleQueryWrapper.eq("role_name",roleName)) == 0){
-            Role role = new Role();
-            role.setRoleName(roleName);
-            role.setNote(note);
-            role.setCreateTime(Timestamp.valueOf(df.format(date)));
-            roleDao.insert(role);
-            obj.put("result","角色"+ roleName+"创建成功");
+            if (null != roleName && !roleName.equals("")){
+                Role role = new Role();
+                role.setRoleName(roleName);
+                role.setNote(note);
+                role.setCreateTime(Timestamp.valueOf(df.format(date)));
+                roleDao.insert(role);
+                obj.put("msg","角色"+ roleName+"创建成功");
+                obj.put("code",200);
+            }
+            else {
+                obj.put("msg","角色名不能为空");
+                obj.put("code",1002);
+            }
+
         }
         else {
-            obj.put("result","角色名"+roleName+"已存在");
+            obj.put("code",1001);
+            obj.put("msg","角色名"+roleName+"已存在");
         }
         return obj.toJSONString();
     }
@@ -83,30 +89,33 @@ public class RoleController {
         Role role = new Role();
         JSONObject obj = new JSONObject();
         QueryWrapper<Role> roleQueryWrapper = new QueryWrapper<>();
-        if (roleName != null && roleName.length() >0
-        && note != null && note.length() > 0){
+        if (roleName != null && !roleName.equals("")
+        && note != null && !note.equals("")){
             role.setNote(note);
             role.setRoleName(roleName);
             role.setUpdateTime(Timestamp.valueOf(df.format(date)));
             roleDao.update(role,roleQueryWrapper.eq("role_name",oldName));
-            obj.put("result","修改成功");
+            obj.put("msg","修改成功");
+            obj.put("code",200);
         }
-        else if (roleName != null && roleName.length() >0){
+        else if (roleName != null && !roleName.equals("")){
             role.setRoleName(roleName);
             role.setUpdateTime(Timestamp.valueOf(df.format(date)));
             roleDao.update(role,roleQueryWrapper.eq("role_name",oldName));
-            obj.put("result","修改成功");
+            obj.put("msg","修改成功");
+            obj.put("code",200);
         }
-        else if (note != null && note.length() > 0){
+        else if (note != null && !note.equals("")){
             role.setNote(note);
             role.setUpdateTime(Timestamp.valueOf(df.format(date)));
             roleDao.update(role,roleQueryWrapper.eq("role_name",oldName));
-            obj.put("result","修改成功");
+            obj.put("msg","修改成功");
+            obj.put("code",200);
         }
         else {
-            obj.put("result","未作任何修改或字段为空");
+            obj.put("msg","字段不能为空");
+            obj.put("code",1002);
         }
-        obj.put("code",200);
         return obj.toJSONString();
     }
 
