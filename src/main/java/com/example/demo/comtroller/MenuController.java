@@ -17,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -55,6 +57,9 @@ public class MenuController {
 //                permissionVoList.add(permissionVo);
 //            }
 //        });
+        ArrayList<Permission> permissions = new ArrayList<>();
+        ArrayList<Permission> fPermission = new ArrayList<>();
+        ArrayList<Permission> childPermission = new ArrayList<>();
         for (Permission top:allMenu){
             if (top.getParentId().equals(0) && top.getLevel().equals("1")){
                 JSONObject childOBJ = new JSONObject();
@@ -63,21 +68,23 @@ public class MenuController {
                         JSONObject childrenOBJ = new JSONObject();
                         for (Permission children:allMenu){
                             if (children.getParentId().equals(child.getId())){
-                                childrenOBJ.put("result",children);
+                                permissions.add(children);
+                                childrenOBJ.put("result",permissions);
                                 childrenOBJ.toJSONString();
                             }
                         }
-                        childOBJ.put("result",child);
+                        childPermission.add(child);
+                        childOBJ.put("result",childPermission);
                         childOBJ.put("child",childrenOBJ);
                         childOBJ.toJSONString();
                     }
                 }
+                fPermission.add(top);
                 obj.put("code",200);
-                obj.put("result",top);
+                obj.put("result",fPermission);
                 obj.put("child",childOBJ);
             }
         }
-//        obj.put("result",permissionVoList);
         return obj.toJSONString();
     }
 }
