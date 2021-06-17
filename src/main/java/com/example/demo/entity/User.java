@@ -19,6 +19,7 @@ public class User {
     private String password;
     @ApiModelProperty(value = "用户手机号")
     private String phone;
+    private Integer gender;
     private String remark;
     private String idNumber;
     private Timestamp createTime;
@@ -30,14 +31,6 @@ public class User {
 
     public void setUpdateTime(Timestamp updateTime) {
         this.updateTime = updateTime;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
     }
 
     public Timestamp getCreateTime() {
@@ -64,7 +57,6 @@ public class User {
         this.remark = remark;
     }
 
-    private String gender;
     @ApiModelProperty(value = "用户名")
     private String username;
 
@@ -102,19 +94,19 @@ public class User {
         this.phone = phone;
     }
 
-    public String getgender() {
-        return gender;
-    }
-
-    public void setgender(String gender) {
-        this.gender = gender;
-    }
-
     public String getUsername() {
         return username;
     }
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public Integer getGender() {
+        return gender;
+    }
+
+    public void setGender(Integer gender) {
+        this.gender = gender;
     }
 }
