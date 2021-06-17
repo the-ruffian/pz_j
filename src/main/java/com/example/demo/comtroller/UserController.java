@@ -59,7 +59,7 @@ public class UserController {
         String password = jsonParam.getString("password");
         String email = jsonParam.getString("email");
         String phone = jsonParam.getString("phone");
-        String gender = jsonParam.getString("gender");
+        Integer gender = jsonParam.getString("gender").equals("男")  ? 1 : jsonParam.getString("gender").equals("女") ? 0 : 2;
         String md5Password = DigestUtils.md5DigestAsHex(password.getBytes());
         QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
         userQueryWrapper.select("phone").like("phone",phone);
@@ -69,7 +69,7 @@ public class UserController {
             User user = new User();
             user.setPhone(phone);
             user.setPassword(md5Password);
-            user.setgender(gender);
+            user.setGender(gender);
             user.setUsername(username);
             user.setEmail(email);
             userDao.insert(user);
