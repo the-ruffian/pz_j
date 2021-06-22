@@ -24,6 +24,15 @@ public class User {
     private String idNumber;
     private Timestamp createTime;
     private Timestamp updateTime;
+    private Timestamp loginTime;
+
+    public Timestamp getLoginTime() {
+        return loginTime;
+    }
+
+    public void setLoginTime(Timestamp loginTime) {
+        this.loginTime = loginTime;
+    }
 
     public Timestamp getUpdateTime() {
         return updateTime;
