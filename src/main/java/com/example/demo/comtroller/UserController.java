@@ -10,6 +10,7 @@ import com.example.demo.entity.User;
 import com.example.demo.mapper.TokenDao;
 import com.example.demo.mapper.UserDao;
 import com.example.demo.utils.JWTUtils;
+import com.example.demo.utils.PublicMethod;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
@@ -37,7 +38,7 @@ public class UserController {
         QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
         Page<User> pageNo = new Page<>(jsonParam.getInteger("pageNo"), jsonParam.getInteger("pageSize"));
         IPage<User> userList =userDao.selectPage(pageNo,userQueryWrapper
-                .select("phone","gender","username","email")
+                .select("phone","gender","username","email","login_time")
                 .like((null!=search.get("username")&& ""!=search.get("username")),"username",search.get("username"))
                 .like((null!=search.get("phone")&& ""!= search.get("phone")),"phone",search.getString("phone"))
                 .eq((null!=search.get("gender")&& ""!=search.get("gender")),"gender",search.get("gender"))
@@ -72,6 +73,7 @@ public class UserController {
             user.setGender(gender);
             user.setUsername(username);
             user.setEmail(email);
+            user.setCreateTime(PublicMethod.getNowTime());
             userDao.insert(user);
             obj.put("code",200);
             obj.put("msg", "尊敬的" + username + "用户，恭喜你注册成功");
@@ -96,22 +98,23 @@ public class UserController {
         userHave.select("id").eq("phone",phone);
         Integer integer = userDao.selectCount(userHave);
         JSONObject obj = new JSONObject();
-        if (integer != 0
-        && username != null && username.length() > 0
-        && email != null && email.length() > 0){
+        if (integer == 1
+        && username != null && !username.equals("")
+        && email != null && !email.equals("")){
             User user = new User();
             User userList = userDao.selectOne(userHave);
             Integer userid = userList.getId();
             user.setId(userid);
             user.setEmail(email);
             user.setUsername(username);
+            user.setUpdateTime(PublicMethod.getNowTime());
             userDao.updateById(user);
             obj.put("msg","资料修改成功");
             obj.put("code", 200);
-        } else if (username == null || username.length() == 0){
+        } else if (username == null || !username.equals("")){
             obj.put("msg","修改失败，username不能为空");
             obj.put("code", 401);
-        } else if (email == null || email.length() ==0) {
+        } else if (email == null || !email.equals("")) {
             obj.put("msg","修改失败，email不能为空");
             obj.put("code", 401);
         }
@@ -183,6 +186,8 @@ public class UserController {
                     token1.setToken(token);
                     tokenDao.insert(token1);
                 }
+                user.setLoginTime(PublicMethod.getNowTime());
+                userDao.update(user, userQueryWrapper.eq("phone",phone));
                 obj.put("code", 200);
                 obj.put("msg", "登录成功");
                 obj.put("token", token);
