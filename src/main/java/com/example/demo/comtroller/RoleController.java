@@ -11,6 +11,7 @@ import com.example.demo.entity.User_role;
 import com.example.demo.mapper.RoleDao;
 import com.example.demo.mapper.RolePermissionDao;
 import com.example.demo.mapper.UserRoleDao;
+import com.example.demo.utils.PublicMethod;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,15 +53,13 @@ public class RoleController {
         String roleName = jsonParam.getString("roleName");
         String note = jsonParam.getString("note");
         QueryWrapper<Role> roleQueryWrapper = new QueryWrapper<>();
-        Date date = new Date();
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); //df.format(day)
         JSONObject obj = new JSONObject();
         if (roleDao.selectCount(roleQueryWrapper.eq("role_name",roleName)) == 0){
             if (null != roleName && !roleName.equals("")){
                 Role role = new Role();
                 role.setRoleName(roleName);
                 role.setNote(note);
-                role.setCreateTime(Timestamp.valueOf(df.format(date)));
+                role.setCreateTime(PublicMethod.getNowTime());
                 roleDao.insert(role);
                 obj.put("msg","角色"+ roleName+"创建成功");
                 obj.put("code",200);
@@ -84,8 +83,6 @@ public class RoleController {
         String oldName = jsonParam.getString("oldName");
         String roleName = jsonParam.getString("roleName");
         String note = jsonParam.getString("note");
-        Date date = new Date();
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Role role = new Role();
         JSONObject obj = new JSONObject();
         QueryWrapper<Role> roleQueryWrapper = new QueryWrapper<>();
@@ -93,21 +90,21 @@ public class RoleController {
         && note != null && !note.equals("")){
             role.setNote(note);
             role.setRoleName(roleName);
-            role.setUpdateTime(Timestamp.valueOf(df.format(date)));
+            role.setUpdateTime(PublicMethod.getNowTime());
             roleDao.update(role,roleQueryWrapper.eq("role_name",oldName));
             obj.put("msg","修改成功");
             obj.put("code",200);
         }
         else if (roleName != null && !roleName.equals("")){
             role.setRoleName(roleName);
-            role.setUpdateTime(Timestamp.valueOf(df.format(date)));
+            role.setUpdateTime(PublicMethod.getNowTime());
             roleDao.update(role,roleQueryWrapper.eq("role_name",oldName));
             obj.put("msg","修改成功");
             obj.put("code",200);
         }
         else if (note != null && !note.equals("")){
             role.setNote(note);
-            role.setUpdateTime(Timestamp.valueOf(df.format(date)));
+            role.setUpdateTime(PublicMethod.getNowTime());
             roleDao.update(role,roleQueryWrapper.eq("role_name",oldName));
             obj.put("msg","修改成功");
             obj.put("code",200);
