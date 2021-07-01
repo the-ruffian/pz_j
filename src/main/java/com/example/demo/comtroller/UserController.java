@@ -9,6 +9,8 @@ import com.example.demo.entity.Token;
 import com.example.demo.entity.User;
 import com.example.demo.mapper.TokenDao;
 import com.example.demo.mapper.UserDao;
+import com.example.demo.model.dto.UserRegisterDto;
+import com.example.demo.service.UserService;
 import com.example.demo.utils.JWTUtils;
 import com.example.demo.utils.PublicMethod;
 import io.swagger.annotations.*;
@@ -26,6 +28,8 @@ public class UserController {
     private UserDao userDao;
     @Autowired
     private TokenDao tokenDao;
+    @Autowired
+    private UserService userService;
 
     /*
     * 1.获取所有信息
@@ -201,5 +205,10 @@ public class UserController {
             obj.put("msg","账号不存在");
         }
         return obj.toJSONString();
+    }
+
+    @PostMapping(value = "/register", produces = "application/json;charset=UTF-8")
+    public List<User> registerUser(@RequestBody  UserRegisterDto userRegisterDto) {
+        return userService.registerUser(userRegisterDto);
     }
 }
