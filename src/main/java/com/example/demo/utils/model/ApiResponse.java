@@ -29,5 +29,16 @@ public class ApiResponse<T> extends BaseResponse implements Serializable {
         apiResponse.setMessage(message);
         return apiResponse;
     }
+    public static <T> ApiResponse<T> ok(String message,T result){
+        return ok("ok", result);
+    }
 
+    public static <T> ApiResponse<T> ok(Status status){
+        ApiResponse<T> apiResponse = new ApiResponse<>();
+        apiResponse.setSuccess(true);
+        apiResponse.setCode(status.getCode());
+        apiResponse.setMessage(status.getMessage());
+        apiResponse.setResult(apiResponse.result);
+        return apiResponse;
+    }
 }
