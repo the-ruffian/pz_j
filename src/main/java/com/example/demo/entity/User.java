@@ -1,3 +1,11 @@
+/*
+ * @Description:UserServiceImpl
+ * @CreatedBy:IntelliJ IDEA
+ * @Author: the-ruffian
+ * @Date:
+ * @LastEditTime: 2021-07-03 20:26:38
+ * @LastEditors: the-ruffian
+ */
 package com.example.demo.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
@@ -25,6 +33,8 @@ public class User {
     private Timestamp createTime;
     private Timestamp updateTime;
     private Timestamp loginTime;
+    private String username;
+    private String email;
 
 
 }
