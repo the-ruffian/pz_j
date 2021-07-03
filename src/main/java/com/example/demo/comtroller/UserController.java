@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.entity.Token;
 import com.example.demo.entity.User;
+import com.example.demo.enums.Status;
 import com.example.demo.mapper.TokenDao;
 import com.example.demo.mapper.UserDao;
 import com.example.demo.model.dto.UserRegisterDto;
@@ -17,13 +18,14 @@ import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
+import com.example.demo.utils.model.ApiResponse;
+
 
 import java.util.*;
 
 @RestController
 @Api(tags = "用户模块")
 public class UserController {
-
     @Autowired
     private UserDao userDao;
     @Autowired
@@ -150,11 +152,11 @@ public class UserController {
     }
 
     @ApiOperation("用户登录")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "请求成功"),
-            @ApiResponse(code = 400, message = "请求参数没填好"),
-            @ApiResponse(code = 404, message = "请求路径没有或页面跳转路径不对")
-    })
+//    @ApiResponses({
+//            @ApiResponse(code = 200, message = "请求成功"),
+//            @ApiResponse(code = 400, message = "请求参数没填好"),
+//            @ApiResponse(code = 404, message = "请求路径没有或页面跳转路径不对")
+//    })
     @PostMapping(value = "/api/user/login", produces = "application/json;charset=UTF-8")
     public Object login(@RequestBody JSONObject jsonParam){
         String phone = jsonParam.getString("phone");
@@ -208,7 +210,8 @@ public class UserController {
     }
 
     @PostMapping(value = "/register", produces = "application/json;charset=UTF-8")
-    public List<User> registerUser(@RequestBody  UserRegisterDto userRegisterDto) {
-        return userService.registerUser(userRegisterDto);
+    public Object registerUser(@RequestBody  UserRegisterDto userRegisterDto) {
+        userService.registerUser(userRegisterDto);
+        return ApiResponse.ok("成功");
     }
 }
