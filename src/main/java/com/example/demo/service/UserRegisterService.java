@@ -8,12 +8,14 @@
  */
 package com.example.demo.service;
 
-import com.example.demo.entity.User;
+
+
 import com.example.demo.model.dto.UserRegisterDto;
+import com.example.demo.utils.model.OpenResponse;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.List;
 
-public interface UserService {
-    List<User> registerUser(@Param("userRegisterDto") UserRegisterDto userRegisterDto);
+
+public interface UserRegisterService {
+    OpenResponse registerUser(@Param("userRegisterDto") UserRegisterDto userRegisterDto);
 }
