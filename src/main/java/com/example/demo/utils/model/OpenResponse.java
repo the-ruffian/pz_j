@@ -1,9 +1,9 @@
 /*
- * @Description:OpenRespone
+ * @Description:OpenResponse
  * @CreatedBy:IntelliJ IDEA
  * @Author: the-ruffian
  * @Date: 2021-07-02 11:25
- * @LastEditTime: 2021-7-4 10:03:30
+ * @LastEditTime: 2021-7-4 18:35:27
  * @LastEditors: the-ruffian
  */
 package com.example.demo.utils.model;
@@ -30,7 +30,12 @@ public class OpenResponse<T> extends BaseResponse implements Serializable {
         return openResponse;
     }
     public static <T> OpenResponse<T> ok(String message, T result){
-        return ok("ok", result);
+        OpenResponse<T> openResponse = new OpenResponse<>();
+        openResponse.setSuccess(true);
+        openResponse.setCode(Status.SUCCESS.getCode());
+        openResponse.setMessage(message);
+        openResponse.setResult(result);
+        return openResponse;
     }
 
     public static <T> OpenResponse<T> ok(Status status){
@@ -57,6 +62,11 @@ public class OpenResponse<T> extends BaseResponse implements Serializable {
         return openResponse;
     }
     public static <T> OpenResponse<T> fail(String message, T result){
-        return fail("fail",result);
+        OpenResponse<T> openResponse = new OpenResponse<>();
+        openResponse.setSuccess(false);
+        openResponse.setCode(Status.FAIL.getCode());
+        openResponse.setMessage(message);
+        openResponse.setResult(result);
+        return openResponse;
     }
 }
