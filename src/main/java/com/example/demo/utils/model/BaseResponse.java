@@ -3,12 +3,12 @@
  * @CreatedBy:IntelliJ IDEA
  * @Author: the-ruffian
  * @Date: 2021-07-02 09:48
- * @LastEditTime: 2021-07-02 09:48
+ * @LastEditTime: 2021-7-4 14:45:11
  * @LastEditors: the-ruffian
  */
 package com.example.demo.utils.model;
 
-import com.example.demo.enums.Status;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -22,8 +22,7 @@ public class BaseResponse {
     protected int subCode;
     @ApiModelProperty("返回信息")
     protected String message;
-    @ApiModelProperty("日志ID")
-    protected String logMessageId;
+
 
     public static BaseResponse fail(int code, String message){
         BaseResponse baseResponse = new BaseResponse();
@@ -63,13 +62,5 @@ public class BaseResponse {
 
     public void setMessage(String message) {
         this.message = message;
-    }
-
-    public String getLogMessageId() {
-        return logMessageId;
-    }
-
-    public void setLogMessageId(String logMessageId) {
-        this.logMessageId = logMessageId;
     }
 }
