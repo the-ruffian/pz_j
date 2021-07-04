@@ -41,4 +41,22 @@ public class OpenResponse<T> extends BaseResponse implements Serializable {
         openResponse.setResult(openResponse.result);
         return openResponse;
     }
+    public static <T> OpenResponse<T> fail(Status status){
+        OpenResponse<T> openResponse = new OpenResponse<>();
+        openResponse.setSuccess(false);
+        openResponse.setCode(status.getCode());
+        openResponse.setMessage(status.getMessage());
+        openResponse.setResult(openResponse.result);
+        return openResponse;
+    }
+    public static <T> OpenResponse<T> fail(String message) {
+        OpenResponse<T> openResponse = new OpenResponse<>();
+        openResponse.setSuccess(false);
+        openResponse.setCode(Status.FAIL.getCode());
+        openResponse.setMessage(message);
+        return openResponse;
+    }
+    public static <T> OpenResponse<T> fail(String message, T result){
+        return fail("fail",result);
+    }
 }
