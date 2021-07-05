@@ -3,7 +3,7 @@
  * @CreatedBy:IntelliJ IDEA
  * @Author: the-ruffian
  * @Date:
- * @LastEditTime: 2021-7-4 20:15:31
+ * @LastEditTime: 2021-07-05 21:25:12
  * @LastEditors: the-ruffian
  */
 package com.example.demo.comtroller;
@@ -18,9 +18,10 @@ import com.example.demo.mapper.TokenDao;
 import com.example.demo.mapper.UserDao;
 import com.example.demo.model.dto.UserLoginDto;
 import com.example.demo.model.dto.UserRegisterDto;
+import com.example.demo.model.dto.UserUpdateDto;
 import com.example.demo.service.UserLoginService;
 import com.example.demo.service.UserRegisterService;
-import com.example.demo.utils.PublicMethod;
+import com.example.demo.service.UserUpdateService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -40,6 +41,8 @@ public class UserController {
     private UserRegisterService userRegisterService;
     @Autowired
     private UserLoginService userLoginService;
+    @Autowired
+    private UserUpdateService userUpdateService;
 
     /*
     * 1.获取所有信息
@@ -77,38 +80,11 @@ public class UserController {
     *  修改用户数据
     * */
     @ApiOperation(value = "修改用户信息")
-    @ApiParam(value = "{test:test}")
-    @PutMapping(value = "/api/user/{phone}", produces = "application/json;charset=UTF-8")
-    public Object update(@PathVariable("phone") String phone,
-                       @RequestBody JSONObject jsonParam){
-        String username = jsonParam.getString("username");
-        String email = jsonParam.getString("email");
-        QueryWrapper<User> userHave = new QueryWrapper<>();
-        userHave.select("id").eq("phone",phone);
-        Integer integer = userDao.selectCount(userHave);
-        JSONObject obj = new JSONObject();
-        if (integer == 1
-        && username != null && !username.equals("")
-        && email != null && !email.equals("")){
-            User user = new User();
-            User userList = userDao.selectOne(userHave);
-            Integer userid = userList.getId();
-            user.setId(userid);
-            user.setEmail(email);
-            user.setUsername(username);
-            user.setUpdateTime(PublicMethod.getNowTime());
-            userDao.updateById(user);
-            obj.put("msg","资料修改成功");
-            obj.put("code", 200);
-        } else if (username == null || !username.equals("")){
-            obj.put("msg","修改失败，username不能为空");
-            obj.put("code", 401);
-        } else if (email == null || !email.equals("")) {
-            obj.put("msg","修改失败，email不能为空");
-            obj.put("code", 401);
-        }
-        return obj.toJSONString();
+    @PutMapping(value = "/api/user/update", produces = "application/json;charset=UTF-8")
+    public OpenResponse update(@RequestBody UserUpdateDto userUpdateDto) {
+        return userUpdateService.update(userUpdateDto);
     }
+
 
     /*
     * 删除用户
