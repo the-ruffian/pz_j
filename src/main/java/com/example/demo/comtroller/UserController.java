@@ -16,9 +16,11 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.entity.User;
 import com.example.demo.mapper.TokenDao;
 import com.example.demo.mapper.UserDao;
+import com.example.demo.model.dto.UserDeleteDto;
 import com.example.demo.model.dto.UserLoginDto;
 import com.example.demo.model.dto.UserRegisterDto;
 import com.example.demo.model.dto.UserUpdateDto;
+import com.example.demo.service.UserDeleteService;
 import com.example.demo.service.UserLoginService;
 import com.example.demo.service.UserRegisterService;
 import com.example.demo.service.UserUpdateService;
@@ -28,7 +30,6 @@ import org.springframework.web.bind.annotation.*;
 import com.example.demo.utils.model.OpenResponse;
 
 
-import java.util.*;
 
 @RestController
 @Api(tags = "用户模块")
@@ -43,6 +44,8 @@ public class UserController {
     private UserLoginService userLoginService;
     @Autowired
     private UserUpdateService userUpdateService;
+    @Autowired
+    private UserDeleteService userDeleteService;
 
     /*
     * 1.获取所有信息
@@ -90,24 +93,9 @@ public class UserController {
     * 删除用户
     * */
     @ApiOperation(value = "删除账号")
-    @DeleteMapping("/api/user/delete/{phone}")
-    public Object delete(@PathVariable("phone")String phone){
-        QueryWrapper<User> userHave = new QueryWrapper<>();
-        userHave.select("id").eq("phone",phone);
-        Integer integer = userDao.selectCount(userHave);
-        JSONObject obj = new JSONObject();
-        if (integer == 1){
-            HashMap<String, Object> stringObjectHashMap = new HashMap<>();
-            stringObjectHashMap.put("phone",phone);
-            userDao.deleteByMap(stringObjectHashMap);
-            obj.put("msg","删除成功");
-            obj.put("code", 200);
-        } else {
-            obj.put("msg", "没有此用户");
-            obj.put("code", 400);
-        }
-
-        return obj.toJSONString();
+    @DeleteMapping("/api/user/delete")
+    public OpenResponse delete(@RequestBody UserDeleteDto userDeleteDto){
+        return userDeleteService.delete(userDeleteDto);
     }
 
     @ApiOperation("用户登录")
