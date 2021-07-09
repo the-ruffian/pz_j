@@ -11,14 +11,15 @@ import com.example.demo.entity.User_role;
 import com.example.demo.mapper.RoleDao;
 import com.example.demo.mapper.RolePermissionDao;
 import com.example.demo.mapper.UserRoleDao;
+import com.example.demo.model.dto.RoleAddDto;
+import com.example.demo.service.role.RoleAddService;
 import com.example.demo.utils.PublicMethod;
+import com.example.demo.utils.model.OpenResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
 
 
 @RestController
@@ -30,6 +31,10 @@ public class RoleController {
     UserRoleDao userRoleDao;
     @Autowired
     RolePermissionDao rolePermissionDao;
+    @Autowired
+    RoleAddService roleAddService;
+
+
     @ApiOperation(value = "获取所有角色")
     @PostMapping(value = "/api/role/list", produces = "application/json; charset=UTF-8")
     public Object roleList(@RequestBody JSONObject jsonParam) {
@@ -49,32 +54,8 @@ public class RoleController {
 
     @ApiOperation(value = "新增角色")
     @PostMapping(value = "/api/role/add", produces = "application/json; charset=UTF-8")
-    public Object addRole(@RequestBody JSONObject jsonParam){
-        String roleName = jsonParam.getString("roleName");
-        String note = jsonParam.getString("note");
-        QueryWrapper<Role> roleQueryWrapper = new QueryWrapper<>();
-        JSONObject obj = new JSONObject();
-        if (roleDao.selectCount(roleQueryWrapper.eq("role_name",roleName)) == 0){
-            if (null != roleName && !roleName.equals("")){
-                Role role = new Role();
-                role.setRoleName(roleName);
-                role.setNote(note);
-                role.setCreateTime(PublicMethod.getNowTime());
-                roleDao.insert(role);
-                obj.put("msg","角色"+ roleName+"创建成功");
-                obj.put("code",200);
-            }
-            else {
-                obj.put("msg","角色名不能为空");
-                obj.put("code",1002);
-            }
-
-        }
-        else {
-            obj.put("code",1001);
-            obj.put("msg","角色名"+roleName+"已存在");
-        }
-        return obj.toJSONString();
+    public OpenResponse add(@RequestBody RoleAddDto roleAddDto){
+        return roleAddService.add(roleAddDto);
     }
 
     @ApiOperation(value = "修改角色")
