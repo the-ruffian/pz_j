@@ -3,7 +3,7 @@
  * @CreatedBy:IntelliJ IDEA
  * @Author: the-ruffian
  * @Date:
- * @LastEditTime: 2021-07-05 21:25:12
+ * @LastEditTime: 2021-07-12 23:49:58
  * @LastEditors: the-ruffian
  */
 package com.example.demo.comtroller;
@@ -14,7 +14,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.entity.User;
-import com.example.demo.mapper.TokenDao;
 import com.example.demo.mapper.UserDao;
 import com.example.demo.model.dto.UserDeleteDto;
 import com.example.demo.model.dto.UserLoginDto;
@@ -36,8 +35,6 @@ import com.example.demo.utils.model.OpenResponse;
 public class UserController {
     @Autowired
     private UserDao userDao;
-    @Autowired
-    private TokenDao tokenDao;
     @Autowired
     private UserRegisterService userRegisterService;
     @Autowired
@@ -98,6 +95,9 @@ public class UserController {
         return userDeleteService.delete(userDeleteDto);
     }
 
+    /*
+    *用户登录
+    * */
     @ApiOperation("用户登录")
     @PostMapping(value = "/api/user/login", produces = "application/json;charset=UTF-8")
     public OpenResponse login(@RequestBody UserLoginDto userLoginDto){
