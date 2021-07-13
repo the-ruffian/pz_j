@@ -21,4 +21,8 @@ public class UserListDto {
     private String email;
     @ApiModelProperty(value = "性别")
     private Integer gender;
+    @ApiModelProperty(value = "当前页")
+    private Integer pageNo;
+    @ApiModelProperty(value = "一页多少行")
+    private Integer pageSize;
 }
