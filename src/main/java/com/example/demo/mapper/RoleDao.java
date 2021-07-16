@@ -3,7 +3,7 @@
  * @CreatedBy:IntelliJ IDEA
  * @Author: the-ruffian
  * @Date: 2021-06-02 10:08
- * @LastEditTime: 2021-7-14 13:39:50
+ * @LastEditTime: 2021-7-16 17:11:40
  * @LastEditors: the-ruffian
  */
 package com.example.demo.mapper;
@@ -27,6 +27,7 @@ public interface RoleDao extends BaseMapper<Role> {
             "from role " +
             "where 1=1 " +
             "<if test=\"roleListDto!=null and roleListDto.roleName!=null and roleListDto.roleName!='' \">and role_name like CONCAT('%',#{roleListDto.roleName},'%')</if>" +
+            "<if test=\"roleListDto!=null and roleListDto.note!=null and roleListDto.note!='' \">and note like CONCAT('%',#{roleListDto.note},'%')</if>" +
             "</script>")
     List<RoleListVo> search(@Param("roleListDto")RoleListDto roleListDto);
 }
