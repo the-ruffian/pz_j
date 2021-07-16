@@ -23,7 +23,7 @@ public interface UserDao extends BaseMapper<User> {
             "<if test=\"userListDto!=null and userListDto.phone!=null and userListDto.phone!=''\"> and u.phone like CONCAT('%',#{userListDto.phone},'%') </if>" +
             "<if test=\"userListDto!=null and userListDto.username!=null and userListDto.username!=''\"> and  u.username like CONCAT('%',#{userListDto.username},'%') </if>" +
             "<if test=\"userListDto!=null and userListDto.email!=null and userListDto.email!=''\"> and u.email like CONCAT('%',#{userListDto.email},'%')% </if>" +
-            "<if test=\"userListDto!=null and userListDto.gender!=null and userListDto.gender!=''\"> and u.gender=#{userListDto.gender}</if> " +
+            "<if test=\"userListDto!=null and userListDto.gender!=null\"> and u.gender=#{userListDto.gender}</if> " +
             " </script>")
     List<UserListVo> userSearch(@Param("userListDto") UserListDto userListDto);
 }
