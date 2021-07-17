@@ -1,9 +1,9 @@
 /*
- * @Description:UserServiceImpl
+ * @Description:用户模块实现类
  * @CreatedBy:IntelliJ IDEA
  * @Author: the-ruffian
  * @Date: 2021-07-01 19:44
- * @LastEditTime: 2021-7-13 18:07:06
+ * @LastEditTime: 2021-07-17 17:55:54
  * @LastEditors: the-ruffian
  */
 package com.example.demo.service.impl;
@@ -109,11 +109,11 @@ public class UserServiceImpl implements UserService {
                 userDao.updateById(user);
                 return OpenResponse.ok("修改成功", userUpdateVo);
             }
-            return OpenResponse.ok("未做任何修改");
+            return OpenResponse.fail("未做任何修改");
         }else if (userList==null){
-            return OpenResponse.ok("没有此用户");
+            return OpenResponse.fail("没有此用户");
         }else {
-            return OpenResponse.ok("未做任何修改");
+            return OpenResponse.fail("未做任何修改");
         }
     }
 
@@ -126,10 +126,10 @@ public class UserServiceImpl implements UserService {
         userQueryWrapper.eq("phone",phone);
         Integer integer = userDao.selectCount(userQueryWrapper);
         if (phone.equals("")||phone==null) {
-            return OpenResponse.ok("手机号不能为空");
+            return OpenResponse.fail("手机号不能为空");
         }
         if (password.equals("")||password==null){
-            return OpenResponse.ok("密码不能为空");
+            return OpenResponse.fail("密码不能为空");
         }
         if (integer != 0){
             QueryWrapper<User> userQueryWrapper1 = new QueryWrapper<>();
@@ -163,9 +163,9 @@ public class UserServiceImpl implements UserService {
                 userLoginVo.setUsername(user.getUsername());
                 return OpenResponse.ok("登录成功",userLoginVo);
             } else {
-            }   return OpenResponse.ok("密码错误");
+            }   return OpenResponse.fail("密码错误");
         }else {
-            return OpenResponse.ok("账号不存在");
+            return OpenResponse.fail("账号不存在");
         }
     }
 
@@ -180,9 +180,9 @@ public class UserServiceImpl implements UserService {
             return OpenResponse.ok("删除成功");
         }
         if (userDao.selectCount(userQueryWrapper.eq("phone",phone))==0){
-            return OpenResponse.ok("用户不存在");
+            return OpenResponse.fail("用户不存在");
         }
-        return OpenResponse.ok("参数错误");
+        return OpenResponse.fail("参数错误");
     }
 
     @Override
