@@ -19,14 +19,14 @@ public class Permission {
 
     @ApiModelProperty(value = "类型")
     @NotNull(message = "类型不能为空")
-    private String type;
+    private Integer type;
 
     @ApiModelProperty(value = "图标")
     private String icon;
 
     @ApiModelProperty(value = "菜单层级")
     @NotNull(message = "层级不能为空")
-    private String level;
+    private Integer level;
 
     @ApiModelProperty(value = "路由地址")
     @NotNull(message = "路由地址不能为空")
@@ -55,100 +55,4 @@ public class Permission {
     @ApiModelProperty(value = "修改时间")
     private Timestamp updateTime;
 
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getIcon() {
-        return icon;
-    }
-
-    public void setIcon(String icon) {
-        this.icon = icon;
-    }
-
-    public String getLevel() {
-        return level;
-    }
-
-    public void setLevel(String level) {
-        this.level = level;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public String getPermissionName() {
-        return permissionName;
-    }
-
-    public void setPermissionName(String permissionName) {
-        this.permissionName = permissionName;
-    }
-
-    public Integer getSortNum() {
-        return sortNum;
-    }
-
-    public void setSortNum(Integer sortNum) {
-        this.sortNum = sortNum;
-    }
-
-    public Integer getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(Integer parentId) {
-        this.parentId = parentId;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
-
-    public Timestamp getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Timestamp createTime) {
-        this.createTime = createTime;
-    }
-
-    public Timestamp getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Timestamp updateTime) {
-        this.updateTime = updateTime;
-    }
 }
