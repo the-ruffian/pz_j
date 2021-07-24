@@ -191,4 +191,9 @@ public class UserServiceImpl implements UserService {
         List<UserListVo> userListVos = userDao.userSearch(userListDto);
         return OpenResponse.ok("ok",new PageInfo<>(userListVos));
     }
+
+    @Override
+    public OpenResponse forgetPassword(UserResetPasswordDto userResetPasswordDto){
+        return null;
+    }
 }
