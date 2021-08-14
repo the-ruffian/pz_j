@@ -69,6 +69,12 @@
             <artifactId>mybatis-plus-boot-starter</artifactId>
             <version>3.4.2</version>
         </dependency>
+        <!-- 邮件依赖 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+            <version>2.5.3</version>
+        </dependency>
         <!--    为了简化代码，引入 lombok 依赖（减少 getter、setter 等方法）    -->
         <dependency>
             <groupId>org.projectlombok</groupId>
