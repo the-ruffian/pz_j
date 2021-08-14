@@ -9,6 +9,26 @@ spring:
     # 初始化时运行sql脚本
     schema: classpath:sql/schema.sql
     initialization-mode: never
+  #邮件配置
+  mail:
+    #smtp服务主机  qq邮箱则为smtp.qq.com
+    host: smtp.163.com
+    #服务协议
+    protocol: smtp
+    # 编码集
+    default-encoding: UTF-8
+    #发送邮件账户
+    username: 13558622779@163.com
+    #授权码
+    password: hl951103
+    test-connection: true
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
 server:
   port: 80
 logging:
