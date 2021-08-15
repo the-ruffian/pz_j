@@ -3,13 +3,14 @@
  * @CreatedBy:IntelliJ IDEA
  * @Author: the-ruffian
  * @Date:
- * @LastEditTime: 2021-7-13 18:09:30
+ * @LastEditTime: 2021-08-15 19:27:22
  * @LastEditors: the-ruffian
  */
 package com.example.demo.comtroller;
 
 
 import com.example.demo.model.dto.*;
+import com.example.demo.service.MailService;
 import com.example.demo.service.UserService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,8 @@ import com.example.demo.utils.model.OpenResponse;
 public class UserController {
     @Autowired
     private UserService userService;
-
+    @Autowired
+    private MailService mailService;
 
     /*
     * 2.注册接口
@@ -44,18 +46,22 @@ public class UserController {
     }
 
 
-    /*
-    * 删除用户
-    * */
+    /**
+     * @Description 删除
+     * @param userDeleteDto
+     * @return
+     */
     @ApiOperation(value = "删除账号")
     @DeleteMapping("/api/user/delete")
     public OpenResponse delete(@RequestBody UserDeleteDto userDeleteDto){
         return userService.delete(userDeleteDto);
     }
 
-    /*
-    *用户登录
-    * */
+    /**
+     * @Description 登录
+     * @param userLoginDto
+     * @return
+     */
     @ApiOperation("用户登录")
     @PostMapping(value = "/api/user/login", produces = "application/json;charset=UTF-8")
     public OpenResponse login(@RequestBody UserLoginDto userLoginDto){
@@ -63,11 +69,34 @@ public class UserController {
         return userService.login(userLoginDto);
     }
 
-    /*
-    * 用户信息
-    * */
+    /**
+     * @Description 查询用户
+     * @param userListDto
+     * @return
+     */
     @PostMapping(value = "/api/user/list",produces = "application/json;charset=UTF-8")
     public OpenResponse search(@RequestBody UserListDto userListDto){
         return userService.search(userListDto);
+    }
+
+    /**
+     * @Description 忘记密码
+     * @param userResetPasswordDto
+     * @return
+     */
+    @PostMapping(value = "/api/forgetPassword",produces = "application/json;charset=UTF-8")
+    public OpenResponse forget(@RequestBody UserResetPasswordDto userResetPasswordDto){
+        return userService.forgetPassword(userResetPasswordDto);
+    }
+
+    /**
+     *
+     * @Description 获取验证码
+     * @param toEmailDto
+     * @return 验证码
+     */
+    @PostMapping(value = "/api/getCode",produces = "application/json;charset=UTF-8")
+    public OpenResponse code(@RequestBody ToEmailDto toEmailDto){
+        return mailService.toEmail(toEmailDto);
     }
 }
