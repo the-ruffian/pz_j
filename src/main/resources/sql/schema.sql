@@ -84,7 +84,7 @@ create table if not exists `role_permission`
 create table if not exists `sys_code`
 (
     `id`          bigint(20) unsigned not null auto_increment comment '主键',
-    `phone`       varchar(12)         not null comment '电话',
+    `code`       varchar(4)         not null comment '验证码',
     `used`        tinyint(1) default 0 comment '使用状态 0未使用1已使用',
     `email`       varchar(30) comment '邮箱',
     `create_time` datetime comment '创建时间',
