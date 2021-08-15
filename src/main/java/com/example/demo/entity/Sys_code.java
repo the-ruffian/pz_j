@@ -3,7 +3,7 @@
  * @CreatedBy:IntelliJ IDEA
  * @Author: the-ruffian
  * @Date: 2021-08-14 17:25
- * @LastEditTime: 2021-08-14 17:25
+ * @LastEditTime: 2021-08-15 17:36:04
  * @LastEditors: the-ruffian
  */
 package com.example.demo.entity;
@@ -20,6 +20,8 @@ import java.sql.Timestamp;
 public class Sys_code {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
+
+    private String code;
 
     private Integer used;
 
