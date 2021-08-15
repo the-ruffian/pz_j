@@ -11,6 +11,8 @@ package com.example.demo.model.dto;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.sql.Timestamp;
+
 @Data
 public class UserResetPasswordDto {
 
@@ -19,7 +21,9 @@ public class UserResetPasswordDto {
     @ApiModelProperty(value = "新密码")
     private String password;
     @ApiModelProperty(value = "确认密码")
-    private String RePassword;
+    private String rePassword;
     @ApiModelProperty(value = "邮箱")
     private String email;
+    @ApiModelProperty(value = "更新时间")
+    private Timestamp update_time;
 }
