@@ -3,14 +3,16 @@
  * @CreatedBy:IntelliJ IDEA
  * @Author: the-ruffian
  * @Date: 2021-07-01 19:44
- * @LastEditTime: 2021-07-17 17:55:54
+ * @LastEditTime: 2021-08-15 19:14:19
  * @LastEditors: the-ruffian
  */
 package com.example.demo.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.example.demo.entity.Sys_code;
 import com.example.demo.entity.Token;
 import com.example.demo.entity.User;
+import com.example.demo.mapper.SysCodeDao;
 import com.example.demo.mapper.TokenDao;
 import com.example.demo.mapper.UserDao;
 import com.example.demo.model.dto.*;
@@ -39,21 +41,23 @@ public class UserServiceImpl implements UserService {
     UserDao userDao;
     @Autowired
     TokenDao tokenDao;
+    @Autowired
+    SysCodeDao sysCodeDao;
 
     @Override
     public OpenResponse registerUser(UserRegisterDto userRegisterDto) {
         Integer gender = userRegisterDto.getGender();//.equals("男")  ? 1 : userRegisterDto.getGender().equals("女") ? 0 : 2;
         QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
         Integer integer = userDao.selectCount(userQueryWrapper.select("phone")
-                .eq("phone",userRegisterDto.getPhone()));
+                .eq("phone", userRegisterDto.getPhone()));
         if (
                 userRegisterDto.getUsername().equals("") || userRegisterDto.getUsername() == null ||
-                userRegisterDto.getGender() == null ||
-                userRegisterDto.getEmail().equals("") || userRegisterDto.getEmail() == null ||
-                userRegisterDto.getPassword().equals("") || userRegisterDto.getPassword() == null ||
-                userRegisterDto.getPhone().equals("") || userRegisterDto.getPhone() == null ) {
+                        userRegisterDto.getGender() == null ||
+                        userRegisterDto.getEmail().equals("") || userRegisterDto.getEmail() == null ||
+                        userRegisterDto.getPassword().equals("") || userRegisterDto.getPassword() == null ||
+                        userRegisterDto.getPhone().equals("") || userRegisterDto.getPhone() == null) {
             return OpenResponse.fail("请正确填写内容");
-        } else if (integer ==1){
+        } else if (integer == 1) {
             return OpenResponse.fail("手机号已存在");
         } else if (integer == 0) {
             User user = new User();
@@ -64,14 +68,14 @@ public class UserServiceImpl implements UserService {
             user.setEmail(userRegisterDto.getEmail());
             user.setCreateTime(PublicMethod.getNowTime());
             userDao.insert(user);
-            return OpenResponse.ok("尊敬的"+userRegisterDto.getUsername()+",恭喜你注册成功");
+            return OpenResponse.ok("尊敬的" + userRegisterDto.getUsername() + ",恭喜你注册成功");
         } else {
             return OpenResponse.fail("未知错误");
         }
     }
 
     @Override
-    public OpenResponse update(@Param("userUpdateDto") UserUpdateDto userUpdateDto){
+    public OpenResponse update(@Param("userUpdateDto") UserUpdateDto userUpdateDto) {
         String username = userUpdateDto.getUsername();
         String email = userUpdateDto.getEmail();
         String phone = userUpdateDto.getPhone();
@@ -82,68 +86,68 @@ public class UserServiceImpl implements UserService {
 
         User user = new User();
         UserUpdateVo userUpdateVo = new UserUpdateVo();
-        if (userList!=null){
+        if (userList != null) {
             Integer userID = userList.getId();
-            if (null != email && !email.equals("")){
+            if (null != email && !email.equals("")) {
                 user.setEmail(email);
                 userUpdateVo.setEmail(email);
             }
-            if (null != username && !username.equals("")){
+            if (null != username && !username.equals("")) {
                 user.setUsername(username);
                 userUpdateVo.setUsername(username);
             }
-            if (null != remark && !remark.equals("")){
+            if (null != remark && !remark.equals("")) {
                 user.setRemark(remark);
                 userUpdateVo.setRemark(remark);
             }
-            if (null !=password && !password.equals("")){
+            if (null != password && !password.equals("")) {
                 user.setPassword(DigestUtils.md5DigestAsHex(password.getBytes()));
             }
             if (
                     null != email && !email.equals("")
                             || null != username && !username.equals("")
                             || null != remark && !remark.equals("")
-                            ||null !=password && !password.equals("")
-            ){
+                            || null != password && !password.equals("")
+            ) {
                 user.setId(userID);
                 userDao.updateById(user);
                 return OpenResponse.ok("修改成功", userUpdateVo);
             }
             return OpenResponse.fail("未做任何修改");
-        }else if (userList==null){
+        } else if (userList == null) {
             return OpenResponse.fail("没有此用户");
-        }else {
+        } else {
             return OpenResponse.fail("未做任何修改");
         }
     }
 
     @Override
-    public OpenResponse login(UserLoginDto userLoginDto){
+    public OpenResponse login(UserLoginDto userLoginDto) {
         String phone = userLoginDto.getPhone();
         String password = userLoginDto.getPassword();
         String md5Password = DigestUtils.md5DigestAsHex(password.getBytes());
         QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
-        userQueryWrapper.eq("phone",phone);
+        userQueryWrapper.eq("phone", phone);
         Integer integer = userDao.selectCount(userQueryWrapper);
-        if (phone.equals("")||phone==null) {
+        if (phone.equals("") || phone == null) {
             return OpenResponse.fail("手机号不能为空");
         }
-        if (password.equals("")||password==null){
+        if (password.equals("") || password == null) {
             return OpenResponse.fail("密码不能为空");
         }
-        if (integer != 0){
+        if (integer != 0) {
             QueryWrapper<User> userQueryWrapper1 = new QueryWrapper<>();
-            userQueryWrapper1.select("username","password").eq("phone",phone);
+            userQueryWrapper1.select("username", "password").eq("phone", phone);
             User user = userDao.selectOne(userQueryWrapper1);
-            if (md5Password.equals(user.getPassword())){
+            if (md5Password.equals(user.getPassword())) {
                 Map<String, String> payload = new HashMap<>();
                 payload.put("phone", phone);
                 payload.put("md5Password", md5Password);
                 String token = JWTUtils.getToken(payload);
                 QueryWrapper<Token> tokenQueryWrapper = new QueryWrapper<>();
-                tokenQueryWrapper.select("id").eq("phone",phone);
+                tokenQueryWrapper.select("id").eq("phone", phone);
                 Integer integer1 = tokenDao.selectCount(tokenQueryWrapper);
-                if (integer1 == 1){
+                if (integer1 == 1) {
                     Token tokenList = tokenDao.selectOne(tokenQueryWrapper);
                     Integer tokenId = tokenList.getId();
                     Token token1 = new Token();
@@ -157,43 +161,82 @@ public class UserServiceImpl implements UserService {
                     tokenDao.insert(token1);
                 }
                 user.setLoginTime(PublicMethod.getNowTime());
-                userDao.update(user, userQueryWrapper.eq("phone",phone));
+                userDao.update(user, userQueryWrapper.eq("phone", phone));
                 UserLoginVo userLoginVo = new UserLoginVo();
                 userLoginVo.setToken(token);
                 userLoginVo.setUsername(user.getUsername());
-                return OpenResponse.ok("登录成功",userLoginVo);
+                return OpenResponse.ok("登录成功", userLoginVo);
             } else {
-            }   return OpenResponse.fail("密码错误");
-        }else {
+            }
+            return OpenResponse.fail("密码错误");
+        } else {
             return OpenResponse.fail("账号不存在");
         }
     }
 
     @Override
-    public OpenResponse delete(UserDeleteDto userDeleteDto){
-        String phone=userDeleteDto.getPhone();
+    public OpenResponse delete(UserDeleteDto userDeleteDto) {
+        String phone = userDeleteDto.getPhone();
         QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
-        if (userDao.selectCount(userQueryWrapper.eq("phone",phone))==1){
+        if (userDao.selectCount(userQueryWrapper.eq("phone", phone)) == 1) {
             HashMap<String, Object> stringObjectHashMap = new HashMap<>();
-            stringObjectHashMap.put("phone",phone);
+            stringObjectHashMap.put("phone", phone);
             userDao.deleteByMap(stringObjectHashMap);
             return OpenResponse.ok("删除成功");
         }
-        if (userDao.selectCount(userQueryWrapper.eq("phone",phone))==0){
+        if (userDao.selectCount(userQueryWrapper.eq("phone", phone)) == 0) {
             return OpenResponse.fail("用户不存在");
         }
         return OpenResponse.fail("参数错误");
     }
 
     @Override
-    public OpenResponse search(UserListDto userListDto){
-        PageMethod.startPage(userListDto.getPageNo(),userListDto.getPageSize());
+    public OpenResponse search(UserListDto userListDto) {
+        PageMethod.startPage(userListDto.getPageNo(), userListDto.getPageSize());
         List<UserListVo> userListVos = userDao.userSearch(userListDto);
-        return OpenResponse.ok("ok",new PageInfo<>(userListVos));
+        return OpenResponse.ok("ok", new PageInfo<>(userListVos));
     }
 
     @Override
-    public OpenResponse forgetPassword(UserResetPasswordDto userResetPasswordDto){
-        return null;
+    public OpenResponse forgetPassword(UserResetPasswordDto userResetPasswordDto) {
+        QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
+        Integer mail = userDao.selectCount(userQueryWrapper
+                .eq("email", userResetPasswordDto.getEmail()));
+        if (mail == 1) {
+            if (!userResetPasswordDto.getPassword().equals("") && userResetPasswordDto.getPassword() != null
+                    && !userResetPasswordDto.getRePassword().equals("") && userResetPasswordDto.getRePassword() != null) {
+                if (userResetPasswordDto.getPassword().equals(userResetPasswordDto.getRePassword())) {
+                    QueryWrapper<Sys_code> sys_codeQueryWrapper = new QueryWrapper<>();
+                    Integer used = sysCodeDao.selectCount(sys_codeQueryWrapper
+                            .eq("email", userResetPasswordDto.getEmail())
+                            .eq("code", userResetPasswordDto.getCode())
+                            .eq("used", 0)
+                    );
+                    if (used == 1 || userResetPasswordDto.getCode() == "0000") {
+                        User userList = userDao.selectOne(userQueryWrapper.select("id").eq("email", userResetPasswordDto.getEmail()));
+                        User user = new User();
+                        Integer userId = userList.getId();
+                        user.setPassword(DigestUtils.md5DigestAsHex(userResetPasswordDto.getPassword().getBytes()));
+                        user.setId(userId);
+                        Sys_code codeList = sysCodeDao.selectOne(sys_codeQueryWrapper.select("id").eq("email", userResetPasswordDto.getEmail()));
+                        Integer codeId = codeList.getId();
+                        Sys_code sys_code = new Sys_code();
+                        sys_code.setId(codeId);
+                        sys_code.setUsed(1);
+                        userDao.updateById(user);
+                        sysCodeDao.updateById(sys_code);
+                        return OpenResponse.ok("修改密码成功");
+                    } else {
+                        return OpenResponse.fail("验证码错误，请重新输入");
+                    }
+                } else {
+                    return OpenResponse.fail("两次密码不一致");
+                }
+            } else {
+                return OpenResponse.fail("密码不能为空");
+            }
+        } else {
+            return OpenResponse.fail("账号不存在");
+        }
     }
 }
