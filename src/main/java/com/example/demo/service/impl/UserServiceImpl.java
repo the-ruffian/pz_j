@@ -3,7 +3,7 @@
  * @CreatedBy:IntelliJ IDEA
  * @Author: the-ruffian
  * @Date: 2021-07-01 19:44
- * @LastEditTime: 2021-08-15 19:14:19
+ * @LastEditTime: 2021-8-16 10:28:24
  * @LastEditors: the-ruffian
  */
 package com.example.demo.service.impl;
@@ -167,8 +167,8 @@ public class UserServiceImpl implements UserService {
                 userLoginVo.setUsername(user.getUsername());
                 return OpenResponse.ok("登录成功", userLoginVo);
             } else {
+                return OpenResponse.fail("密码错误");
             }
-            return OpenResponse.fail("密码错误");
         } else {
             return OpenResponse.fail("账号不存在");
         }
@@ -235,7 +235,9 @@ public class UserServiceImpl implements UserService {
             } else {
                 return OpenResponse.fail("密码不能为空");
             }
-        } else {
+        }else if (userResetPasswordDto.getEmail().equals("")||userResetPasswordDto.getEmail()==null){
+            return OpenResponse.fail("请输入邮箱");
+        }else {
             return OpenResponse.fail("账号不存在");
         }
     }
