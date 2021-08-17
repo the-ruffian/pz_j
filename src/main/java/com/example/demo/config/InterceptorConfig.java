@@ -11,7 +11,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new JWTInterceptor())
                 .addPathPatterns("/api/**") //token验证接口
-                .excludePathPatterns("/api/user/login","/api/user/register",  //放行接口
+                .excludePathPatterns("/api/user/login","/api/user/register","/api/getCode","/api/forgetPassword",  //放行接口
                         "/swagger-ui.html/**", "/v2/**","/swagger-resources/**","/webjars/**","/*.html"); //swagger相关的接口
     }
 }
