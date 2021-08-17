@@ -212,7 +212,7 @@ public class UserServiceImpl implements UserService {
                             .eq("code", userResetPasswordDto.getCode())
                             .eq("used", 0)
                     );
-                    if (used == 1 || userResetPasswordDto.getCode() == "0000") {
+                    if (used == 1) {
                         User userList = userDao.selectOne(userQueryWrapper.select("id").eq("email", userResetPasswordDto.getEmail()));
                         User user = new User();
                         Integer userId = userList.getId();
@@ -226,7 +226,16 @@ public class UserServiceImpl implements UserService {
                         userDao.updateById(user);
                         sysCodeDao.updateById(sys_code);
                         return OpenResponse.ok("修改密码成功");
-                    } else {
+                    }else if (userResetPasswordDto.getCode().equals("0000")){
+                        User userList = userDao.selectOne(userQueryWrapper.select("id").eq("email", userResetPasswordDto.getEmail()));
+                        User user = new User();
+                        Integer userId = userList.getId();
+                        user.setPassword(DigestUtils.md5DigestAsHex(userResetPasswordDto.getPassword().getBytes()));
+                        user.setId(userId);
+                        userDao.updateById(user);
+                        return OpenResponse.ok("修改密码成功");
+                    }
+                    else {
                         return OpenResponse.fail("验证码错误，请重新输入");
                     }
                 } else {
