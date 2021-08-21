@@ -3,7 +3,7 @@
  * @CreatedBy:IntelliJ IDEA
  * @Author: the-ruffian
  * @Date: 2021-06-02 09:51
- * @LastEditTime: 2021-07-18 18:24:56
+ * @LastEditTime: 2021-08-21 18:06:40
  * @LastEditors: the-ruffian
  */
 package com.example.demo.mapper;
@@ -11,6 +11,7 @@ package com.example.demo.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.example.demo.entity.Permission;
 import com.example.demo.model.dto.UserMenuListDto;
+import com.example.demo.model.vo.AllPermissionVo;
 import com.example.demo.model.vo.UserMenuListVo;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -30,4 +31,9 @@ public interface PermissionDao extends BaseMapper<Permission> {
             "</script>")
     List<UserMenuListVo> allMenu(@Param("userMenuListDto")UserMenuListDto userMenuListDto);
 
+    @Select("<script>" +
+            "select id,type,icon,level,url,code,permission_name,sort_num,parent_id,remark\n" +
+            "from permission\n" +
+            "</script>")
+    List<AllPermissionVo> allPermission();
 }
