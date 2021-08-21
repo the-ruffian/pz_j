@@ -3,7 +3,7 @@
  * @CreatedBy:IntelliJ IDEA
  * @Author: the-ruffian
  * @Date: 2021-06-12 20:34:32
- * @LastEditTime: 2021-7-14 19:49:30
+ * @LastEditTime: 2021-08-21 18:08:02
  * @LastEditors: the-ruffian
  */
 package com.example.demo.comtroller;
@@ -20,6 +20,7 @@ import com.example.demo.model.dto.RoleUpdateDto;
 import com.example.demo.service.RoleService;
 import com.example.demo.utils.model.OpenResponse;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -61,5 +62,11 @@ public class RoleController {
     @DeleteMapping(value = "/api/role/delete",produces = "application/json; charset=UTF-8")
     public Object deleteRole(@RequestBody RoleDeleteDto roleDeleteDto) {
         return roleService.delete(roleDeleteDto);
+    }
+
+    @ApiModelProperty(value = "菜单资源")
+    @PostMapping(value = "/api/role/permission",produces = "application/json; charset=UTF-8")
+    public Object permission (){
+        return roleService.permission();
     }
 }
