@@ -3,7 +3,7 @@
  * @CreatedBy:IntelliJ IDEA
  * @Author: the-ruffian
  * @Date: 2021-07-09 22:45:32
- * @LastEditTime: 2021-7-14 19:51:52
+ * @LastEditTime: 2021-08-21 18:05:12
  * @LastEditors: the-ruffian
  */
 package com.example.demo.service.impl;
@@ -13,6 +13,7 @@ import com.example.demo.entity.Role;
 import com.example.demo.entity.Role_permission;
 import com.example.demo.entity.User_role;
 import com.example.demo.enums.Status;
+import com.example.demo.mapper.PermissionDao;
 import com.example.demo.mapper.RoleDao;
 import com.example.demo.mapper.RolePermissionDao;
 import com.example.demo.mapper.UserRoleDao;
@@ -20,6 +21,7 @@ import com.example.demo.model.dto.RoleAddDto;
 import com.example.demo.model.dto.RoleDeleteDto;
 import com.example.demo.model.dto.RoleListDto;
 import com.example.demo.model.dto.RoleUpdateDto;
+import com.example.demo.model.vo.AllPermissionVo;
 import com.example.demo.model.vo.RoleListVo;
 import com.example.demo.service.RoleService;
 import com.example.demo.utils.PublicMethod;
@@ -29,6 +31,7 @@ import com.github.pagehelper.page.PageMethod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -41,10 +44,14 @@ public class RoleServiceImpl implements RoleService {
     RolePermissionDao rolePermissionDao;
     @Autowired
     UserRoleDao userRoleDao;
+    @Autowired
+    PermissionDao permissionDao;
 
-    /*
-    * 新增角色
-    * */
+    /**
+     *
+     * @param roleAddDto
+     * @return
+     */
     @Override
     public OpenResponse add(RoleAddDto roleAddDto) {
         String roleName = roleAddDto.getRoleName();
@@ -65,9 +72,11 @@ public class RoleServiceImpl implements RoleService {
         return OpenResponse.fail("角色("+roleName+")已存在");
     }
 
-    /*
-    * 角色列表
-    * */
+    /**
+     *
+     * @param roleListDto
+     * @return 分页查询所有角色
+     */
     @Override
     public OpenResponse search(RoleListDto roleListDto){
         PageMethod.startPage(roleListDto.getPageNo(),roleListDto.getPageSize());
@@ -75,9 +84,11 @@ public class RoleServiceImpl implements RoleService {
         return OpenResponse.ok(Status.SUCCESS.getMessage(),new PageInfo<>(roleListVos));
     }
 
-    /*
-    * 修改角色
-    * */
+    /**
+     *
+     * @param roleUpdateDto
+     * @return 是否修改成功
+     */
     @Override
     public OpenResponse update(RoleUpdateDto roleUpdateDto){
         QueryWrapper<Role> roleQueryWrapper = new QueryWrapper<>();
@@ -115,9 +126,11 @@ public class RoleServiceImpl implements RoleService {
         }
     }
 
-    /*
-    * 删除角色
-    * */
+    /**
+     *
+     * @param “角色ID”
+     * @return 删除提示
+     */
     @Override
     public OpenResponse delete(RoleDeleteDto roleDeleteDto){
         QueryWrapper<Role> roleQueryWrapper = new QueryWrapper<>();
@@ -133,6 +146,36 @@ public class RoleServiceImpl implements RoleService {
         }else {
             return OpenResponse.fail("没有此角色");
         }
+    }
+
+    /**
+     *
+     * @return 所有菜单
+     */
+    @Override
+    public OpenResponse permission(){
+        List<AllPermissionVo> permissions = permissionDao.allPermission();
+        ArrayList<AllPermissionVo> permissionsList = new ArrayList<>();
+        ArrayList<AllPermissionVo> permissionsListChild = new ArrayList<>();
+        List<AllPermissionVo> permission = new ArrayList<>();
+        permissions.forEach(i -> {
+            if (i.getLevel()==1){
+                for (AllPermissionVo child:permissions ){
+                    if (child.getParentId()==i.getId()){
+                        for (AllPermissionVo children:permissions){
+                            if (children.getParentId()==child.getId()){
+                                permissionsListChild.add(children);
+                            }
+                        }
+                        child.setChildren(permissionsListChild);
+                        permissionsList.add(child);
+                    }
+                }
+                i.setChildren(permissionsList);
+                permission.add(i);
+            }
+        });
+        return OpenResponse.ok("菜单资源",permission);
     }
 }
 
