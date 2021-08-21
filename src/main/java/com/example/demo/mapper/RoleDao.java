@@ -3,7 +3,7 @@
  * @CreatedBy:IntelliJ IDEA
  * @Author: the-ruffian
  * @Date: 2021-06-02 10:08
- * @LastEditTime: 2021-7-16 17:11:40
+ * @LastEditTime: 2021-8-20 16:06:21
  * @LastEditors: the-ruffian
  */
 package com.example.demo.mapper;
@@ -22,10 +22,10 @@ import java.util.List;
 public interface RoleDao extends BaseMapper<Role> {
 
     @Select("<script> " +
-            "select " +
-            "role_name,note,create_time,update_time " +
-            "from role " +
-            "where 1=1 " +
+            "select\n" +
+            "role_name,note,create_time,update_time,status\n" +
+            "from role\n" +
+            "where 1=1\n" +
             "<if test=\"roleListDto!=null and roleListDto.roleName!=null and roleListDto.roleName!='' \">and role_name like CONCAT('%',#{roleListDto.roleName},'%')</if>" +
             "<if test=\"roleListDto!=null and roleListDto.note!=null and roleListDto.note!='' \">and note like CONCAT('%',#{roleListDto.note},'%')</if>" +
             "</script>")

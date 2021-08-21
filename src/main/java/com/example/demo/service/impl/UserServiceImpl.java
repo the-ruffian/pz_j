@@ -3,7 +3,7 @@
  * @CreatedBy:IntelliJ IDEA
  * @Author: the-ruffian
  * @Date: 2021-07-01 19:44
- * @LastEditTime: 2021-08-15 19:14:19
+ * @LastEditTime: 2021-8-16 10:28:24
  * @LastEditors: the-ruffian
  */
 package com.example.demo.service.impl;
@@ -167,8 +167,8 @@ public class UserServiceImpl implements UserService {
                 userLoginVo.setUsername(user.getUsername());
                 return OpenResponse.ok("登录成功", userLoginVo);
             } else {
+                return OpenResponse.fail("密码错误");
             }
-            return OpenResponse.fail("密码错误");
         } else {
             return OpenResponse.fail("账号不存在");
         }
@@ -212,7 +212,7 @@ public class UserServiceImpl implements UserService {
                             .eq("code", userResetPasswordDto.getCode())
                             .eq("used", 0)
                     );
-                    if (used == 1 || userResetPasswordDto.getCode() == "0000") {
+                    if (used == 1) {
                         User userList = userDao.selectOne(userQueryWrapper.select("id").eq("email", userResetPasswordDto.getEmail()));
                         User user = new User();
                         Integer userId = userList.getId();
@@ -226,7 +226,16 @@ public class UserServiceImpl implements UserService {
                         userDao.updateById(user);
                         sysCodeDao.updateById(sys_code);
                         return OpenResponse.ok("修改密码成功");
-                    } else {
+                    }else if (userResetPasswordDto.getCode().equals("0000")){
+                        User userList = userDao.selectOne(userQueryWrapper.select("id").eq("email", userResetPasswordDto.getEmail()));
+                        User user = new User();
+                        Integer userId = userList.getId();
+                        user.setPassword(DigestUtils.md5DigestAsHex(userResetPasswordDto.getPassword().getBytes()));
+                        user.setId(userId);
+                        userDao.updateById(user);
+                        return OpenResponse.ok("修改密码成功");
+                    }
+                    else {
                         return OpenResponse.fail("验证码错误，请重新输入");
                     }
                 } else {
@@ -235,7 +244,9 @@ public class UserServiceImpl implements UserService {
             } else {
                 return OpenResponse.fail("密码不能为空");
             }
-        } else {
+        }else if (userResetPasswordDto.getEmail().equals("")||userResetPasswordDto.getEmail()==null){
+            return OpenResponse.fail("请输入邮箱");
+        }else {
             return OpenResponse.fail("账号不存在");
         }
     }
