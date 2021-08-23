@@ -3,7 +3,7 @@
  * @CreatedBy:IntelliJ IDEA
  * @Author: the-ruffian
  * @Date: 2021-07-09 22:45:32
- * @LastEditTime: 2021-08-21 18:05:12
+ * @LastEditTime: 2021-8-23 22:20:38
  * @LastEditors: the-ruffian
  */
 package com.example.demo.service.impl;
@@ -17,10 +17,7 @@ import com.example.demo.mapper.PermissionDao;
 import com.example.demo.mapper.RoleDao;
 import com.example.demo.mapper.RolePermissionDao;
 import com.example.demo.mapper.UserRoleDao;
-import com.example.demo.model.dto.RoleAddDto;
-import com.example.demo.model.dto.RoleDeleteDto;
-import com.example.demo.model.dto.RoleListDto;
-import com.example.demo.model.dto.RoleUpdateDto;
+import com.example.demo.model.dto.*;
 import com.example.demo.model.vo.AllPermissionVo;
 import com.example.demo.model.vo.RoleListVo;
 import com.example.demo.service.RoleService;
@@ -176,6 +173,29 @@ public class RoleServiceImpl implements RoleService {
             }
         });
         return OpenResponse.ok("菜单资源",permission);
+    }
+
+    @Override
+    public OpenResponse fixStatus(RoleStatusDto roleStatusDto){
+        if (roleStatusDto.getRoleName() !=null && !roleStatusDto.getRoleName().equals("")){
+            if (roleStatusDto.getStatus() !=null && (roleStatusDto.getStatus()==0 || roleStatusDto.getStatus()==1)){
+                QueryWrapper<Role> roleQueryWrapper = new QueryWrapper<>();
+                Integer role = roleDao.selectCount(roleQueryWrapper.eq("role_name",roleStatusDto.getRoleName()));
+                if (role ==1){//有角色
+                    Integer oldStatus = roleDao.selectOne(roleQueryWrapper.select("status").eq("role_name",roleStatusDto.getRoleName())).getStatus();
+                    if (oldStatus!= roleStatusDto.getStatus()){
+                        roleDao.fixStatus(roleStatusDto);
+                        return OpenResponse.ok("状态修改成功");
+                    }else {
+                        return OpenResponse.fail("无需修改");
+                    }
+                }
+                return OpenResponse.fail("角色"+roleStatusDto.getRoleName()+"不存在");
+            }else {
+                return OpenResponse.fail("角色状态不能为空且只能是0或1");
+            }
+        }
+        return OpenResponse.fail("角色名称不能为空");
     }
 }
 
