@@ -3,7 +3,7 @@
  * @CreatedBy:IntelliJ IDEA
  * @Author: the-ruffian
  * @Date: 2021-06-12 20:34:32
- * @LastEditTime: 2021-08-21 18:08:02
+ * @LastEditTime: 2021-8-23 22:22:49
  * @LastEditors: the-ruffian
  */
 package com.example.demo.comtroller;
@@ -13,10 +13,7 @@ package com.example.demo.comtroller;
 import com.example.demo.mapper.RoleDao;
 import com.example.demo.mapper.RolePermissionDao;
 import com.example.demo.mapper.UserRoleDao;
-import com.example.demo.model.dto.RoleAddDto;
-import com.example.demo.model.dto.RoleDeleteDto;
-import com.example.demo.model.dto.RoleListDto;
-import com.example.demo.model.dto.RoleUpdateDto;
+import com.example.demo.model.dto.*;
 import com.example.demo.service.RoleService;
 import com.example.demo.utils.model.OpenResponse;
 import io.swagger.annotations.Api;
@@ -68,5 +65,11 @@ public class RoleController {
     @PostMapping(value = "/api/role/permission",produces = "application/json; charset=UTF-8")
     public Object permission (){
         return roleService.permission();
+    }
+
+    @ApiModelProperty(value = "修改角色状态")
+    @PostMapping(value = "/api/role/fixStatus",produces = "application/json; charset=UTF-8")
+    public Object fixStatus(@RequestBody RoleStatusDto roleStatusDto) {
+        return roleService.fixStatus(roleStatusDto);
     }
 }
