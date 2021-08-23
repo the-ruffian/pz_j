@@ -3,7 +3,7 @@
  * @CreatedBy:IntelliJ IDEA
  * @Author: the-ruffian
  * @Date: 2021-07-09 21:38:32
- * @LastEditTime: 2021-8-23 21:00:20
+ * @LastEditTime: 2021-8-23 22:21:53
  * @LastEditors: the-ruffian
  */
 package com.example.demo.service;
@@ -18,5 +18,5 @@ public interface RoleService {
     OpenResponse update(@Param("roleUpdateDto")RoleUpdateDto roleUpdateDto);
     OpenResponse delete(@Param("roleDeleteDto")RoleDeleteDto roleDeleteDto);
     OpenResponse permission();
-    OpenResponse fixstatus(@Param("roleStatusDto")RoleStatusDto roleStatusDto);
+    OpenResponse fixStatus(@Param("roleStatusDto")RoleStatusDto roleStatusDto);
 }
