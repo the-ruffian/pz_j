@@ -93,3 +93,42 @@ create table if not exists `sys_code`
     primary key (`id`)
 ) engine = InnoDB
   default charset = utf8 comment '验证码表';
+
+# 栏目表
+create table if not exists `column_menu`
+(
+    `id`    bigint(20) unsigned not null auto_increment comment '主键',
+    `column_name` varchar(20) not null comment '栏目名',
+    primary key (`id`)
+) engine = InnoDB
+  default charset =utf8 comment '栏目表';
+
+# 文章表
+create table if not exists `article`
+(
+    `id`        bigint(20) unsigned not null auto_increment comment '主键',
+    `title`     varchar(20) not null comment '标题',
+    `author`    varchar(20) not null comment '作者',
+    `create_time`   datetime comment '发布时间',
+    `update_time`   datetime comment '修改时间',
+    `article`   longtext not null comment '文章内容',
+    `hits`  int comment '点击数',
+    `post_num` int comment '评论数',
+    `sort_id` bigint(20) unsigned        not null comment '所属栏目id',
+    primary key (`id`),
+    foreign key (sort_id) references column_menu (id)
+) engine = InnoDB
+  default charset = utf8 comment '文章表';
+
+# 评论表
+create table if not exists `comment_form`
+(
+    `id`    bigint(20) unsigned not null  auto_increment comment '主键',
+    `username`  varchar(20) not null comment '评论人',
+    `create_time` datetime comment '评论时间',
+    `update_time` datetime comment '最后编辑时间',
+    `article_id` bigint(20) unsigned not null comment '文章id',
+    primary key (`id`),
+    foreign key (article_id) references article (id)
+)engine =InnoDB
+default charset =utf8 comment '评论表'
