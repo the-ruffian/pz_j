@@ -1,16 +1,13 @@
-/*
- * @Description:RoleStatusDto
- * @CreatedBy:IntelliJ IDEA
- * @Author: the-ruffian
- * @Date: 2021-08-23 20:52
- * @LastEditTime: 2021-08-23 20:52
- * @LastEditors: the-ruffian
- */
 package com.example.demo.model.dto;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+
+/**
+ * @author bugpz
+ * @date 2021-09-25 23:09:59
+ */
 @Data
 public class RoleStatusDto {
     @ApiModelProperty(value = "角色状态")
