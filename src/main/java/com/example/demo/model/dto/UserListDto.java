@@ -1,16 +1,12 @@
-/*
- * @Description:UserListDto
- * @CreatedBy:IntelliJ IDEA
- * @Author: the-ruffian
- * @Date: 2021-07-13 12:58
- * @LastEditTime: 2021-7-13 14:56:11
- * @LastEditors: the-ruffian
- */
 package com.example.demo.model.dto;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+/**
+ * @author bugpz
+ * @date 2021-09-25 23:11:58
+ */
 @Data
 public class UserListDto {
     @ApiModelProperty(value = "手机号")
