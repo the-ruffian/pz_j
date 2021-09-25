@@ -1,11 +1,3 @@
-/*
- * @Description:Role_permission
- * @CreatedBy:IntelliJ IDEA
- * @Author: the-ruffian
- * @Date: 2021-06-02 10:31
- * @LastEditTime: 2021-09-25 22:17:28
- * @LastEditors: the-ruffian
- */
 package com.example.demo.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
@@ -15,9 +7,13 @@ import lombok.Data;
 import java.sql.Timestamp;
 
 
+/**
+ * @author bugpz
+ * @date 2021-09-25 22:23:03
+ */
 @Data
 @TableName(value = "role_permission")
-public class Role_permission {
+public class RolePermission {
 
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
