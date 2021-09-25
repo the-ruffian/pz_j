@@ -1,11 +1,3 @@
-/*
- * @Description:UserServiceImpl
- * @CreatedBy:IntelliJ IDEA
- * @Author: the-ruffian
- * @Date:
- * @LastEditTime: 2021-07-03 20:26:38
- * @LastEditors: the-ruffian
- */
 package com.example.demo.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
@@ -14,11 +6,16 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-
 import java.sql.Timestamp;
 
+
+/**
+ * @author bugpz
+ * @date 2021-09-25 22:29:15
+ */
+
 @Data
-@TableName(value = "user")//指定表名
+@TableName(value = "user")
 @ApiModel(value = "用户表")
 public class User {
     @TableId(value = "id", type = IdType.AUTO)//指定自增策略

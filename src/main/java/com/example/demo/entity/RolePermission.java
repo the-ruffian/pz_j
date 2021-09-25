@@ -26,15 +26,4 @@ public class RolePermission {
 
     private Timestamp updateTime;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getRoleId() {
-        return roleId;
-    }
 }
