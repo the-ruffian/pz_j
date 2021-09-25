@@ -1,16 +1,12 @@
-/*
- * @Description:角色列表参数
- * @CreatedBy:IntelliJ IDEA
- * @Author: the-ruffian
- * @Date: 2021-07-14 10:42
- * @LastEditTime: 2021-7-16 17:55:15
- * @LastEditors: the-ruffian
- */
 package com.example.demo.model.dto;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+/**
+ * @author bugpz
+ * @date 2021-09-25 23:09:36
+ */
 @Data
 public class RoleListDto {
     @ApiModelProperty(value = "页码")
