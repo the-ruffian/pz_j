@@ -6,20 +6,22 @@ import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.example.demo.utils.JWTUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
+/**
+ * @author bugpz
+ * @date 2021-09-25 22:35:26
+ */
 public class JWTInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         JSONObject map = new JSONObject();
-        //获取请求头中的令牌
         String token = request.getHeader("Authorization");
         try {
             JWTUtils.verify(token);
-            return true; //放行请求
+            return true;
         } catch (SignatureVerificationException e) {
             e.printStackTrace();
             map.put("msg", "无效签名!");
