@@ -18,7 +18,7 @@ import java.sql.Timestamp;
 @TableName(value = "user")
 @ApiModel(value = "用户表")
 public class User {
-    @TableId(value = "id", type = IdType.AUTO)//指定自增策略
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
     @ApiModelProperty(value = "用户密码")
     private String password;
