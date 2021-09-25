@@ -10,6 +10,10 @@ import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 
 
+/**
+ * @author bugpz
+ * @date 2021-09-25 22:24:16
+ */
 @Data
 @TableName(value = "permission")
 @ApiModel(value = "资源")
