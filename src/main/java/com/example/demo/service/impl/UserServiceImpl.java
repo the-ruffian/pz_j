@@ -1,15 +1,7 @@
-/*
- * @Description:用户模块实现类
- * @CreatedBy:IntelliJ IDEA
- * @Author: the-ruffian
- * @Date: 2021-07-01 19:44
- * @LastEditTime: 2021-09-25 22:18:07
- * @LastEditors: the-ruffian
- */
 package com.example.demo.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.example.demo.entity.Sys_code;
+import com.example.demo.entity.SysCode;
 import com.example.demo.entity.Token;
 import com.example.demo.entity.User;
 import com.example.demo.mapper.SysCodeDao;
@@ -205,7 +197,7 @@ public class UserServiceImpl implements UserService {
             if (!"".equals(userResetPasswordDto.getPassword()) && userResetPasswordDto.getPassword() != null
                     && !"".equals(userResetPasswordDto.getRePassword()) && userResetPasswordDto.getRePassword() != null) {
                 if (userResetPasswordDto.getPassword().equals(userResetPasswordDto.getRePassword())) {
-                    QueryWrapper<Sys_code> sysCodeQueryWrapper = new QueryWrapper<>();
+                    QueryWrapper<SysCode> sysCodeQueryWrapper = new QueryWrapper<>();
                     Integer used = sysCodeDao.selectCount(sysCodeQueryWrapper
                             .eq("email", userResetPasswordDto.getEmail())
                             .eq("code", userResetPasswordDto.getCode())
@@ -217,9 +209,9 @@ public class UserServiceImpl implements UserService {
                         Integer userId = userList.getId();
                         user.setPassword(DigestUtils.md5DigestAsHex(userResetPasswordDto.getPassword().getBytes()));
                         user.setId(userId);
-                        Sys_code codeList = sysCodeDao.selectOne(sysCodeQueryWrapper.select("id").eq("email", userResetPasswordDto.getEmail()));
+                        SysCode codeList = sysCodeDao.selectOne(sysCodeQueryWrapper.select("id").eq("email", userResetPasswordDto.getEmail()));
                         Integer codeId = codeList.getId();
-                        Sys_code sysCode = new Sys_code();
+                        SysCode sysCode = new SysCode();
                         sysCode.setId(codeId);
                         sysCode.setUsed(1);
                         userDao.updateById(user);

@@ -9,7 +9,7 @@
 package com.example.demo.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.example.demo.entity.Sys_code;
+import com.example.demo.entity.SysCode;
 import com.example.demo.entity.User;
 import com.example.demo.mapper.SysCodeDao;
 import com.example.demo.mapper.UserDao;
@@ -46,7 +46,7 @@ public class MailServiceImpl implements MailService {
         Integer userMail = userDao.selectCount(userQueryWrapper.eq("email",toEmailDto.getTos()));
         if (userMail==1){
             String code = PublicMethod.code().toString();
-            Sys_code sysCode = new Sys_code();
+            SysCode sysCode = new SysCode();
             sysCode.setEmail(toEmailDto.getTos());
             sysCode.setCode(code);
             sysCode.setCreateTime(PublicMethod.getNowTime());

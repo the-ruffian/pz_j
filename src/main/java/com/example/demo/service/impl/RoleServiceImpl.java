@@ -10,8 +10,8 @@ package com.example.demo.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.demo.entity.Role;
-import com.example.demo.entity.Role_permission;
-import com.example.demo.entity.User_role;
+import com.example.demo.entity.RolePermission;
+import com.example.demo.entity.UserRole;
 import com.example.demo.enums.Status;
 import com.example.demo.mapper.PermissionDao;
 import com.example.demo.mapper.RoleDao;
@@ -131,8 +131,8 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public OpenResponse delete(RoleDeleteDto roleDeleteDto){
         QueryWrapper<Role> roleQueryWrapper = new QueryWrapper<>();
-        QueryWrapper<Role_permission> rolePermissionQueryWrapper = new QueryWrapper<>();
-        QueryWrapper<User_role> userRoleQueryWrapper = new QueryWrapper<>();
+        QueryWrapper<RolePermission> rolePermissionQueryWrapper = new QueryWrapper<>();
+        QueryWrapper<UserRole> userRoleQueryWrapper = new QueryWrapper<>();
         Integer have = roleDao.selectCount(roleQueryWrapper.eq("role_id",roleDeleteDto.getRoleId()));
 
         if (have == 1){
@@ -181,7 +181,7 @@ public class RoleServiceImpl implements RoleService {
             if (roleStatusDto.getStatus() !=null && (roleStatusDto.getStatus()==0 || roleStatusDto.getStatus()==1)){
                 QueryWrapper<Role> roleQueryWrapper = new QueryWrapper<>();
                 Integer role = roleDao.selectCount(roleQueryWrapper.eq("role_name",roleStatusDto.getRoleName()));
-                if (role ==1){//有角色
+                if (role ==1){
                     Integer oldStatus = roleDao.selectOne(roleQueryWrapper.select("status").eq("role_name",roleStatusDto.getRoleName())).getStatus();
                     if (!oldStatus.equals(roleStatusDto.getStatus())){
                         roleDao.fixStatus(roleStatusDto);
