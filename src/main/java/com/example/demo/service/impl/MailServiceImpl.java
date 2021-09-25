@@ -3,7 +3,7 @@
  * @CreatedBy:IntelliJ IDEA
  * @Author: the-ruffian
  * @Date: 2021-08-14 16:41
- * @LastEditTime: 2021-08-15 18:07:00
+ * @LastEditTime: 2021-09-25 22:17:10
  * @LastEditors: the-ruffian
  */
 package com.example.demo.service.impl;
@@ -46,11 +46,11 @@ public class MailServiceImpl implements MailService {
         Integer userMail = userDao.selectCount(userQueryWrapper.eq("email",toEmailDto.getTos()));
         if (userMail==1){
             String code = PublicMethod.code().toString();
-            Sys_code sys_code = new Sys_code();
-            sys_code.setEmail(toEmailDto.getTos());
-            sys_code.setCode(code);
-            sys_code.setCreateTime(PublicMethod.getNowTime());
-            sysCodeDao.insert(sys_code);
+            Sys_code sysCode = new Sys_code();
+            sysCode.setEmail(toEmailDto.getTos());
+            sysCode.setCode(code);
+            sysCode.setCreateTime(PublicMethod.getNowTime());
+            sysCodeDao.insert(sysCode);
             //创建简单邮件消息
             SimpleMailMessage message = new SimpleMailMessage();
             //谁发的

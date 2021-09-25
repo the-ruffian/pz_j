@@ -3,7 +3,7 @@
  * @CreatedBy:IntelliJ IDEA
  * @Author: the-ruffian
  * @Date: 2021-06-02 10:31
- * @LastEditTime: 2021-06-02 10:31
+ * @LastEditTime: 2021-09-25 22:17:28
  * @LastEditors: the-ruffian
  */
 package com.example.demo.entity;
@@ -38,51 +38,7 @@ public class Role_permission {
         this.id = id;
     }
 
-    public Integer getRole_id() {
-        return roleId;
-    }
-
-    public void setRole_id(Integer roleId) {
-        this.roleId = roleId;
-    }
-
-    public Integer getPermission_id() {
-        return permissionId;
-    }
-
-    public void setPermission_id(Integer permissionId) {
-        this.permissionId = permissionId;
-    }
-
     public Integer getRoleId() {
         return roleId;
-    }
-
-    public void setRoleId(Integer roleId) {
-        this.roleId = roleId;
-    }
-
-    public Integer getPermissionId() {
-        return permissionId;
-    }
-
-    public void setPermissionId(Integer permissionId) {
-        this.permissionId = permissionId;
-    }
-
-    public Timestamp getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Timestamp createTime) {
-        this.createTime = createTime;
-    }
-
-    public Timestamp getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Timestamp updateTime) {
-        this.updateTime = updateTime;
     }
 }

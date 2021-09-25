@@ -3,7 +3,7 @@
  * @CreatedBy:IntelliJ IDEA
  * @Author: the-ruffian
  * @Date: 2021-08-14 17:25
- * @LastEditTime: 2021-08-15 17:36:04
+ * @LastEditTime: 2021-09-25 22:17:48
  * @LastEditors: the-ruffian
  */
 package com.example.demo.entity;
@@ -29,5 +29,5 @@ public class Sys_code {
 
     private Timestamp createTime;
 
-    private Timestamp UpdateTime;
+    private Timestamp updateTime;
 }

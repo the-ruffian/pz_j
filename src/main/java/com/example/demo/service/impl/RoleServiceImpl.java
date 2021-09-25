@@ -3,7 +3,7 @@
  * @CreatedBy:IntelliJ IDEA
  * @Author: the-ruffian
  * @Date: 2021-07-09 22:45:32
- * @LastEditTime: 2021-8-23 22:20:38
+ * @LastEditTime: 2021-09-25 22:17:35
  * @LastEditors: the-ruffian
  */
 package com.example.demo.service.impl;
@@ -55,7 +55,7 @@ public class RoleServiceImpl implements RoleService {
         String note = roleAddDto.getNote();
         QueryWrapper<Role> roleQueryWrapper = new QueryWrapper<>();
         if (roleDao.selectCount(roleQueryWrapper.eq("role_name", roleName)) == 0) {
-            if (null != roleName && !roleName.equals("")) {
+            if (null != roleName && !"".equals(roleName)) {
                 Role role = new Role();
                 role.setRoleName(roleName);
                 role.setNote(note);
@@ -95,8 +95,8 @@ public class RoleServiceImpl implements RoleService {
             return OpenResponse.fail("没有该角色");
         }else {
             if (
-                    roleUpdateDto.getNewName()!=null && !roleUpdateDto.getNewName().equals("")
-                    && roleUpdateDto.getNote()!=null && !roleUpdateDto.getNote().equals("")
+                    roleUpdateDto.getNewName()!=null && !"".equals(roleUpdateDto.getNewName())
+                    && roleUpdateDto.getNote()!=null && !"".equals(roleUpdateDto.getNote())
             ){
                 role.setRoleName(roleUpdateDto.getNewName());
                 role.setNote(roleUpdateDto.getNote());
@@ -104,13 +104,13 @@ public class RoleServiceImpl implements RoleService {
                 roleDao.update(role,roleQueryWrapper.eq("role_name",roleUpdateDto.getOldName()));
                 return OpenResponse.ok("修改成功");
             }
-            if (roleUpdateDto.getNewName()!=null && !roleUpdateDto.getNewName().equals("")){
+            if (roleUpdateDto.getNewName()!=null && !"".equals(roleUpdateDto.getNewName())){
                 role.setRoleName(roleUpdateDto.getNewName());
                 role.setUpdateTime(PublicMethod.getNowTime());
                 roleDao.update(role,roleQueryWrapper.eq("role_name",roleUpdateDto.getOldName()));
                 return OpenResponse.ok("修改成功");
             }
-            if (roleUpdateDto.getNote()!=null && !roleUpdateDto.getNote().equals("")){
+            if (roleUpdateDto.getNote()!=null && !"".equals(roleUpdateDto.getNote())){
                 role.setNote(roleUpdateDto.getNote());
                 role.setUpdateTime(PublicMethod.getNowTime());
                 roleDao.update(role,roleQueryWrapper.eq("role_name",roleUpdateDto.getOldName()));
@@ -131,13 +131,13 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public OpenResponse delete(RoleDeleteDto roleDeleteDto){
         QueryWrapper<Role> roleQueryWrapper = new QueryWrapper<>();
-        QueryWrapper<Role_permission> role_permissionQueryWrapper = new QueryWrapper<>();
-        QueryWrapper<User_role> user_roleQueryWrapper = new QueryWrapper<>();
+        QueryWrapper<Role_permission> rolePermissionQueryWrapper = new QueryWrapper<>();
+        QueryWrapper<User_role> userRoleQueryWrapper = new QueryWrapper<>();
         Integer have = roleDao.selectCount(roleQueryWrapper.eq("role_id",roleDeleteDto.getRoleId()));
 
         if (have == 1){
-            rolePermissionDao.deleteById(role_permissionQueryWrapper.select("id").eq("role_id",roleDeleteDto.getRoleId()));
-            userRoleDao.deleteById(user_roleQueryWrapper.select("id").eq("role_id",roleDeleteDto.getRoleId()));
+            rolePermissionDao.deleteById(rolePermissionQueryWrapper.select("id").eq("role_id",roleDeleteDto.getRoleId()));
+            userRoleDao.deleteById(userRoleQueryWrapper.select("id").eq("role_id",roleDeleteDto.getRoleId()));
             roleDao.deleteById(roleDeleteDto.getRoleId());
             return OpenResponse.ok("删除成功");
         }else {
@@ -158,9 +158,9 @@ public class RoleServiceImpl implements RoleService {
         permissions.forEach(i -> {
             if (i.getLevel()==1){
                 for (AllPermissionVo child:permissions ){
-                    if (child.getParentId()==i.getId()){
+                    if (child.getParentId().equals(i.getId())){
                         for (AllPermissionVo children:permissions){
-                            if (children.getParentId()==child.getId()){
+                            if (children.getParentId().equals(child.getId())){
                                 permissionsListChild.add(children);
                             }
                         }
@@ -177,13 +177,13 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public OpenResponse fixStatus(RoleStatusDto roleStatusDto){
-        if (roleStatusDto.getRoleName() !=null && !roleStatusDto.getRoleName().equals("")){
+        if (roleStatusDto.getRoleName() !=null && !"".equals(roleStatusDto.getRoleName())){
             if (roleStatusDto.getStatus() !=null && (roleStatusDto.getStatus()==0 || roleStatusDto.getStatus()==1)){
                 QueryWrapper<Role> roleQueryWrapper = new QueryWrapper<>();
                 Integer role = roleDao.selectCount(roleQueryWrapper.eq("role_name",roleStatusDto.getRoleName()));
                 if (role ==1){//有角色
                     Integer oldStatus = roleDao.selectOne(roleQueryWrapper.select("status").eq("role_name",roleStatusDto.getRoleName())).getStatus();
-                    if (oldStatus!= roleStatusDto.getStatus()){
+                    if (!oldStatus.equals(roleStatusDto.getStatus())){
                         roleDao.fixStatus(roleStatusDto);
                         return OpenResponse.ok("状态修改成功");
                     }else {

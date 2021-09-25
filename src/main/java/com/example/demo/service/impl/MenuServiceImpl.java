@@ -27,9 +27,9 @@ public class MenuServiceImpl implements MenuService {
         permissions.forEach(i -> {
             if (i.getLevel()==1){
                 for (UserMenuListVo child:permissions ){
-                    if (child.getParentId()==i.getId()){
+                    if (child.getParentId().equals(i.getId())){
                         for (UserMenuListVo children:permissions){
-                            if (children.getParentId()==child.getId()){
+                            if (children.getParentId().equals(child.getId())){
                                 userMenuListVo2.add(children);
                             }
                         }

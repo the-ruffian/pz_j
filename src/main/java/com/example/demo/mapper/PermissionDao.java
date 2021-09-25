@@ -3,7 +3,7 @@
  * @CreatedBy:IntelliJ IDEA
  * @Author: the-ruffian
  * @Date: 2021-06-02 09:51
- * @LastEditTime: 2021-08-21 18:06:40
+ * @LastEditTime: 2021-09-25 22:17:22
  * @LastEditors: the-ruffian
  */
 package com.example.demo.mapper;
@@ -29,11 +29,17 @@ public interface PermissionDao extends BaseMapper<Permission> {
             "            left join permission p on p.id = rp.permission_id " +
             "where u.phone= #{userMenuListDto.phone}" +
             "</script>")
+    /**
+     * @return 获取所有菜单
+     */
     List<UserMenuListVo> allMenu(@Param("userMenuListDto")UserMenuListDto userMenuListDto);
 
     @Select("<script>" +
             "select id,type,icon,level,url,code,permission_name,sort_num,parent_id,remark\n" +
             "from permission\n" +
             "</script>")
+    /**
+     * @return 获取所有菜单资源
+     */
     List<AllPermissionVo> allPermission();
 }

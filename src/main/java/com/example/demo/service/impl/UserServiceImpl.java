@@ -3,7 +3,7 @@
  * @CreatedBy:IntelliJ IDEA
  * @Author: the-ruffian
  * @Date: 2021-07-01 19:44
- * @LastEditTime: 2021-8-16 10:28:24
+ * @LastEditTime: 2021-09-25 22:18:07
  * @LastEditors: the-ruffian
  */
 package com.example.demo.service.impl;
@@ -51,11 +51,11 @@ public class UserServiceImpl implements UserService {
         Integer integer = userDao.selectCount(userQueryWrapper.select("phone")
                 .eq("phone", userRegisterDto.getPhone()));
         if (
-                userRegisterDto.getUsername().equals("") || userRegisterDto.getUsername() == null ||
+                "".equals(userRegisterDto.getUsername()) || userRegisterDto.getUsername() == null ||
                         userRegisterDto.getGender() == null ||
-                        userRegisterDto.getEmail().equals("") || userRegisterDto.getEmail() == null ||
-                        userRegisterDto.getPassword().equals("") || userRegisterDto.getPassword() == null ||
-                        userRegisterDto.getPhone().equals("") || userRegisterDto.getPhone() == null) {
+                        "".equals(userRegisterDto.getEmail()) || userRegisterDto.getEmail() == null ||
+                        "".equals(userRegisterDto.getPassword()) || userRegisterDto.getPassword() == null ||
+                        "".equals(userRegisterDto.getPhone()) || userRegisterDto.getPhone() == null) {
             return OpenResponse.fail("请正确填写内容");
         } else if (integer == 1) {
             return OpenResponse.fail("手机号已存在");
@@ -87,29 +87,28 @@ public class UserServiceImpl implements UserService {
         User user = new User();
         UserUpdateVo userUpdateVo = new UserUpdateVo();
         if (userList != null) {
-            Integer userID = userList.getId();
-            if (null != email && !email.equals("")) {
+            Integer userId = userList.getId();
+            if (null != email && !"".equals(email)) {
                 user.setEmail(email);
                 userUpdateVo.setEmail(email);
             }
-            if (null != username && !username.equals("")) {
+            if (null != username && !"".equals(username)) {
                 user.setUsername(username);
                 userUpdateVo.setUsername(username);
             }
-            if (null != remark && !remark.equals("")) {
+            if (null != remark && !"".equals(remark)) {
                 user.setRemark(remark);
                 userUpdateVo.setRemark(remark);
             }
-            if (null != password && !password.equals("")) {
+            if (null != password && !"".equals(password)) {
                 user.setPassword(DigestUtils.md5DigestAsHex(password.getBytes()));
             }
-            if (
-                    null != email && !email.equals("")
-                            || null != username && !username.equals("")
-                            || null != remark && !remark.equals("")
-                            || null != password && !password.equals("")
+            if (null != email && !"".equals(email)
+                            || null != username && !"".equals(username)
+                            || null != remark && !"".equals(remark)
+                            || null != password && !"".equals(password)
             ) {
-                user.setId(userID);
+                user.setId(userId);
                 userDao.updateById(user);
                 return OpenResponse.ok("修改成功", userUpdateVo);
             }
@@ -129,10 +128,10 @@ public class UserServiceImpl implements UserService {
         QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
         userQueryWrapper.eq("phone", phone);
         Integer integer = userDao.selectCount(userQueryWrapper);
-        if (phone.equals("") || phone == null) {
+        if ("".equals(phone) || phone == null) {
             return OpenResponse.fail("手机号不能为空");
         }
-        if (password.equals("") || password == null) {
+        if ("".equals(password) || password == null) {
             return OpenResponse.fail("密码不能为空");
         }
         if (integer != 0) {
@@ -203,11 +202,11 @@ public class UserServiceImpl implements UserService {
         Integer mail = userDao.selectCount(userQueryWrapper
                 .eq("email", userResetPasswordDto.getEmail()));
         if (mail == 1) {
-            if (!userResetPasswordDto.getPassword().equals("") && userResetPasswordDto.getPassword() != null
-                    && !userResetPasswordDto.getRePassword().equals("") && userResetPasswordDto.getRePassword() != null) {
+            if (!"".equals(userResetPasswordDto.getPassword()) && userResetPasswordDto.getPassword() != null
+                    && !"".equals(userResetPasswordDto.getRePassword()) && userResetPasswordDto.getRePassword() != null) {
                 if (userResetPasswordDto.getPassword().equals(userResetPasswordDto.getRePassword())) {
-                    QueryWrapper<Sys_code> sys_codeQueryWrapper = new QueryWrapper<>();
-                    Integer used = sysCodeDao.selectCount(sys_codeQueryWrapper
+                    QueryWrapper<Sys_code> sysCodeQueryWrapper = new QueryWrapper<>();
+                    Integer used = sysCodeDao.selectCount(sysCodeQueryWrapper
                             .eq("email", userResetPasswordDto.getEmail())
                             .eq("code", userResetPasswordDto.getCode())
                             .eq("used", 0)
@@ -218,15 +217,15 @@ public class UserServiceImpl implements UserService {
                         Integer userId = userList.getId();
                         user.setPassword(DigestUtils.md5DigestAsHex(userResetPasswordDto.getPassword().getBytes()));
                         user.setId(userId);
-                        Sys_code codeList = sysCodeDao.selectOne(sys_codeQueryWrapper.select("id").eq("email", userResetPasswordDto.getEmail()));
+                        Sys_code codeList = sysCodeDao.selectOne(sysCodeQueryWrapper.select("id").eq("email", userResetPasswordDto.getEmail()));
                         Integer codeId = codeList.getId();
-                        Sys_code sys_code = new Sys_code();
-                        sys_code.setId(codeId);
-                        sys_code.setUsed(1);
+                        Sys_code sysCode = new Sys_code();
+                        sysCode.setId(codeId);
+                        sysCode.setUsed(1);
                         userDao.updateById(user);
-                        sysCodeDao.updateById(sys_code);
+                        sysCodeDao.updateById(sysCode);
                         return OpenResponse.ok("修改密码成功");
-                    }else if (userResetPasswordDto.getCode().equals("0000")){
+                    }else if ("0000".equals(userResetPasswordDto.getCode())){
                         User userList = userDao.selectOne(userQueryWrapper.select("id").eq("email", userResetPasswordDto.getEmail()));
                         User user = new User();
                         Integer userId = userList.getId();
@@ -244,7 +243,7 @@ public class UserServiceImpl implements UserService {
             } else {
                 return OpenResponse.fail("密码不能为空");
             }
-        }else if (userResetPasswordDto.getEmail().equals("")||userResetPasswordDto.getEmail()==null){
+        }else if ("".equals(userResetPasswordDto.getEmail())||userResetPasswordDto.getEmail()==null){
             return OpenResponse.fail("请输入邮箱");
         }else {
             return OpenResponse.fail("账号不存在");

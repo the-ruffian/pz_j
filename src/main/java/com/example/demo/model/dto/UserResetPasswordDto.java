@@ -3,7 +3,7 @@
  * @CreatedBy:IntelliJ IDEA
  * @Author: the-ruffian
  * @Date: 2021-07-24 20:52:51
- * @LastEditTime: 2021-08-15 15:56:08
+ * @LastEditTime: 2021-09-25 22:17:55
  * @LastEditors: the-ruffian
  */
 package com.example.demo.model.dto;
@@ -25,5 +25,5 @@ public class UserResetPasswordDto {
     @ApiModelProperty(value = "邮箱")
     private String email;
     @ApiModelProperty(value = "更新时间")
-    private Timestamp update_time;
+    private Timestamp updateTime;
 }
