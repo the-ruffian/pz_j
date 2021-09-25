@@ -1,16 +1,12 @@
-/*
- * @Description:修改角色入参
- * @CreatedBy:IntelliJ IDEA
- * @Author: the-ruffian
- * @Date: 2021-07-14 17:20
- * @LastEditTime: 2021-7-14 19:20:34
- * @LastEditors: the-ruffian
- */
 package com.example.demo.model.dto;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+/**
+ * @author bugpz
+ * @date 2021-09-25 23:10:21
+ */
 @Data
 public class RoleUpdateDto {
     @ApiModelProperty(value = "旧角色名")
