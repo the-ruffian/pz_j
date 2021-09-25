@@ -12,12 +12,16 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
-
 import java.sql.Timestamp;
 
+
+/**
+ * @author bugpz
+ * @date 2021-09-25 22:26:13
+ */
 @Data
 @TableName(value = "sys_code")
-public class Sys_code {
+public class SysCode {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
