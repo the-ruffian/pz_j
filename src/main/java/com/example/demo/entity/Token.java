@@ -4,9 +4,13 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
-
 import javax.validation.constraints.NotNull;
 
+
+/**
+ * @author bugpz
+ * @date 2021年09月25日22:27:13
+ */
 @Data
 @TableName(value = "token")
 public class Token {
@@ -22,31 +26,6 @@ public class Token {
 
     public Token(){
 
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
     }
 }
 
