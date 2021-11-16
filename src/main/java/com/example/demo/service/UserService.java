@@ -23,4 +23,5 @@ public interface UserService {
     OpenResponse login(@Param("userLoginDto") UserLoginDto userLoginDto);
     OpenResponse delete(@Param("userDeleteDto") UserDeleteDto userDeleteDto);
     OpenResponse forgetPassword(@Param("userResetPasswordDto") UserResetPasswordDto userResetPasswordDto);
+    OpenResponse logout(@Param("userLogoutDto")UserLogoutDto userLogoutDto);
 }

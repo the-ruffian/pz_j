@@ -99,4 +99,15 @@ public class UserController {
     public OpenResponse code(@RequestBody ToEmailDto toEmailDto){
         return mailService.toEmail(toEmailDto);
     }
+
+    /**
+     *
+     * @Description 退出登录
+     * @param userLogoutDto
+     * @return
+     */
+    @PostMapping(value = "/api/logout", produces = "application/json;charset=UTF-8")
+    public OpenResponse logout(@RequestBody UserLogoutDto userLogoutDto){
+        return userService.logout(userLogoutDto);
+    }
 }

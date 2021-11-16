@@ -17,6 +17,7 @@ import com.example.demo.utils.PublicMethod;
 import com.example.demo.utils.model.OpenResponse;
 import com.github.pagehelper.PageInfo;
 import com.github.pagehelper.page.PageMethod;
+import io.swagger.models.auth.In;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -239,6 +240,19 @@ public class UserServiceImpl implements UserService {
             return OpenResponse.fail("请输入邮箱");
         }else {
             return OpenResponse.fail("账号不存在");
+        }
+    }
+
+    @Override
+    public OpenResponse logout(UserLogoutDto userLogoutDto){
+        QueryWrapper<Token> tokenQueryWrapper = new QueryWrapper<>();
+        Integer token = tokenDao.selectCount(tokenQueryWrapper
+                .eq("phone",userLogoutDto.getPhone()));
+        if (token ==1){
+            tokenDao.delete(tokenQueryWrapper.eq("phone",userLogoutDto.getPhone()));
+            return OpenResponse.ok("退出登录");
+        }else {
+            return OpenResponse.fail("token已失效，请重新登录");
         }
     }
 }
