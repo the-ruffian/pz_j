@@ -1,6 +1,6 @@
 package com.example.demo.comtroller;
 
-import com.example.demo.model.dto.article.ColumnMenuDto;
+import com.example.demo.model.dto.article.ColumnAddDto;
 import com.example.demo.service.Column.ColumnService;
 import com.example.demo.utils.model.OpenResponse;
 import io.swagger.annotations.Api;
@@ -23,7 +23,7 @@ public class ColumnMenuController {
      */
     @ApiOperation(value = "新增栏目")
     @PostMapping(value = "/api/columnMenu/add",produces = "application/json;charset=UTF-8")
-    public OpenResponse add(@RequestBody ColumnMenuDto columnMenuDto) {
+    public OpenResponse add(@RequestBody ColumnAddDto columnMenuDto) {
         return columnService.addColumn(columnMenuDto);
     }
 }
