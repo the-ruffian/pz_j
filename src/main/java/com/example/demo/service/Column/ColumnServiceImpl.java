@@ -42,4 +42,16 @@ public class ColumnServiceImpl implements ColumnService {
         List<ColumnListVo> columnListVos = columnMenuDao.search(columnListDto);
         return OpenResponse.ok(Status.SUCCESS.getMessage(), new PageInfo<>(columnListVos));
     };
+
+    @Override
+    public OpenResponse deleteColumn(ColumnAddDto columnAddDto){
+        QueryWrapper<ColumnMenu> columnMenuQueryWrapper = new QueryWrapper<>();
+        Integer col = columnMenuDao.selectCount(columnMenuQueryWrapper.eq("column_name",columnAddDto.getColumnName()));
+        if (col == 1){
+            columnMenuDao.delete(columnMenuQueryWrapper.eq("column_name",columnAddDto.getColumnName()));
+            return OpenResponse.ok("栏目《"+columnAddDto.getColumnName()+"》删除成功");
+        }else {
+            return OpenResponse.fail("栏目《"+columnAddDto.getColumnName()+"》不存在");
+        }
+    }
 }

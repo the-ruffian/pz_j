@@ -33,4 +33,10 @@ public class ColumnMenuController {
     public OpenResponse search(@RequestBody ColumnListDto columnListDto) {
         return columnService.searchColumn(columnListDto);
     }
+
+    @ApiOperation(value = "删除栏目")
+    @PostMapping(value = "/api/columnMenu/delete",produces = "application/json;charset=UTF-8")
+    public OpenResponse delete(@RequestBody ColumnAddDto columnAddDto) {
+        return columnService.deleteColumn(columnAddDto);
+    }
 }

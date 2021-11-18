@@ -8,4 +8,5 @@ import org.apache.ibatis.annotations.Param;
 public interface ColumnService {
     OpenResponse addColumn(@Param("columnMenuDto") ColumnAddDto columnMenuDto);
     OpenResponse searchColumn(@Param("columnListDto")ColumnListDto columnListDto);
+    OpenResponse deleteColumn(@Param("columnAddDto")ColumnAddDto columnAddDto);
 }
