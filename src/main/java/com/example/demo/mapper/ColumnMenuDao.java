@@ -18,7 +18,7 @@ public interface ColumnMenuDao extends BaseMapper<ColumnMenu> {
             "column_name\n" +
             "from column_menu\n" +
             "where 1=1\n" +
-            "<if test=\"columnListDto != null and  columnListDto.columnName =! null and columnListDto.columnName != '' \"> and column_name like CONCAT('%',#{columnListDto.columnName},'%')</if> " +
+            "<if test=\"columnListDto != null and  columnListDto.columnName != null and columnListDto.columnName != '' \"> and column_name like CONCAT('%',#{columnListDto.columnName},'%')</if> " +
             "</script>")
     List<ColumnListVo> search(@Param("columnListDto")ColumnListDto columnListDto);
 }
