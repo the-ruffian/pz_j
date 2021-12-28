@@ -7,4 +7,7 @@ import lombok.Data;
 public class ColumnListVo {
     @ApiModelProperty(value = "栏目名")
     private String columnName;
+
+    @ApiModelProperty(value = "栏目id")
+    private Integer id;
 }
