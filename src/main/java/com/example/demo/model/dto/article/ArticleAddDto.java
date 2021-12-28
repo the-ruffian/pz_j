@@ -15,4 +15,7 @@ public class ArticleAddDto {
     @ApiModelProperty(value = "内容")
     private String article;
 
+    @ApiModelProperty(value = "栏目id")
+    private Integer sortId;
+
 }
