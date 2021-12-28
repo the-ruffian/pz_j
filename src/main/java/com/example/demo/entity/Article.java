@@ -41,4 +41,7 @@ public class Article {
 
     @ApiModelProperty(value = "评论数")
     private Integer postNum;
+
+    @ApiModelProperty(value = "栏目id")
+    private Integer sortId;
 }
