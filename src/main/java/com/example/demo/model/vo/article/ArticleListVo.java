@@ -7,6 +7,8 @@ import java.sql.Timestamp;
 
 @Data
 public class ArticleListVo {
+    @ApiModelProperty(value = "id")
+    private Integer id;
     @ApiModelProperty(value = "标题")
     private String title;
     @ApiModelProperty(value = "作者")
