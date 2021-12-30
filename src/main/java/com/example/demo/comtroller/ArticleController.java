@@ -1,6 +1,7 @@
 package com.example.demo.comtroller;
 
 import com.example.demo.model.dto.article.ArticleAddDto;
+import com.example.demo.model.dto.article.ArticleListDto;
 import com.example.demo.service.Article.ArticleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -20,5 +21,11 @@ public class ArticleController {
     @PostMapping(value = "/api/article/add", produces = "application/json;charset=UTF-8")
     public Object newArticle(@RequestBody ArticleAddDto articleAddDto){
         return articleService.newArticle(articleAddDto);
+    }
+
+    @ApiOperation(value = "查询")
+    @PostMapping(value = "/api/article/list", produces = "application/json;charset=UTF-8")
+    public Object searchArticle(@RequestBody ArticleListDto articleListDto){
+        return articleService.searchArticle(articleListDto);
     }
 }
