@@ -19,5 +19,7 @@ public class ArticleListVo {
     private Integer hits;
     @ApiModelProperty(value = "评论数")
     private Integer postNum;
+    @ApiModelProperty(value = "栏目")
+    private String columnName;
 
 }
