@@ -11,6 +11,8 @@ public class ArticleListVo {
     private String title;
     @ApiModelProperty(value = "作者")
     private String author;
+    @ApiModelProperty(value = "内容")
+    private String article;
     @ApiModelProperty(value = "创建时间")
     private Timestamp createTime;
     @ApiModelProperty(value = "修改时间")
