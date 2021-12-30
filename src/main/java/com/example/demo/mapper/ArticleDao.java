@@ -16,7 +16,7 @@ import java.util.List;
 public interface ArticleDao extends BaseMapper<Article> {
     @Select("<script>\n" +
             "select\n" +
-            "a.title,a.author,a.create_time,a.update_time,a.article,a.hits,a.post_num,c.column_name\n" +
+            "a.id,a.title,a.author,a.create_time,a.update_time,a.article,a.hits,a.post_num,c.column_name\n" +
             "from article a,column_menu c where 1=1 and a.sort_id=c.id\n" +
             "<if test = \"articleListDto != null and articleListDto.title != null and articleListDto.title != ''\"> and a.title like CONCAT('%',#{articleListDto.title},'%')</if>\n" +
             "<if test = \"articleListDto != null and articleListDto.author != null and articleListDto.author != ''\"> and a.author like CONCAT('%',#{articleListDto.author},'%')</if>\n" +
