@@ -4,6 +4,7 @@ import com.example.demo.entity.Article;
 import com.example.demo.enums.Status;
 import com.example.demo.mapper.ArticleDao;
 import com.example.demo.model.dto.article.ArticleAddDto;
+import com.example.demo.model.dto.article.ArticleBodyDto;
 import com.example.demo.model.dto.article.ArticleListDto;
 import com.example.demo.model.vo.article.ArticleListVo;
 import com.example.demo.utils.PublicMethod;
@@ -56,10 +57,29 @@ public class ArticleServiceImpl implements ArticleService{
         }
     }
 
+    /**
+     *
+     * @param articleListDto: pageNo,pageSize,title,author,sortId
+     * @return  List<ArticleListVo>
+     */
     @Override
     public Object searchArticle(ArticleListDto articleListDto) {
         PageMethod.startPage(articleListDto.getPageNo(),articleListDto.getPageSize());
         List<ArticleListVo> articleListVos = articleDao.search(articleListDto);
         return OpenResponse.ok(Status.SUCCESS.getMessage(),new PageInfo<>(articleListVos));
+    }
+
+    /**
+     *
+     * @param articleBodyDto: id
+     * @return  article
+     */
+    @Override
+    public Object searchArticleBody(ArticleBodyDto articleBodyDto) {
+        if (articleBodyDto.getId() != null){
+            return OpenResponse.ok(Status.SUCCESS.getMessage(),articleDao.searchBody(articleBodyDto));
+        } else {
+            return OpenResponse.fail("文章不存在");
+        }
     }
 }
