@@ -20,7 +20,7 @@ import com.example.demo.utils.model.OpenResponse;
 
 
 @RestController
-@Api(tags = "用户模块")
+@Api(tags = "User",description = "用户模块")
 public class UserController {
     @Autowired
     private UserService userService;

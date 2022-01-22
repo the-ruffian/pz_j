@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@Api(tags = "角色")
+@Api(tags = "Role",description = "角色")
 public class RoleController {
     @Autowired
     RoleDao roleDao;

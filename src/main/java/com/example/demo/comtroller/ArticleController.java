@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@Api(tags = "文章")
+@Api(tags = "Article", description = "文章模块")
 public class ArticleController {
     @Autowired
     ArticleService articleService;

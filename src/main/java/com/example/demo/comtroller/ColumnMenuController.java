@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@Api(tags = "栏目")
+@Api(tags = "Column", description = "栏目")
 public class ColumnMenuController {
     @Autowired
     ColumnService columnService;
