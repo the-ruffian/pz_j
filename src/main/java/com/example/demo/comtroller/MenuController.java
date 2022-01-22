@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@Api(tags = "menu permissions",description = "菜单权限")
+@Api(tags = "MenuPermissions",description = "菜单权限")
 public class MenuController {
     @Autowired
     UserRoleDao userRoleDao;
