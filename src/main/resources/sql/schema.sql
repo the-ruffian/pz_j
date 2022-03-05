@@ -12,6 +12,7 @@ create table if not exists `user`
     `remark`      varchar(128) comment '备注',
     `create_time` datetime comment '创建时间',
     `update_time` datetime comment '修改时间',
+    `login_time` datetime comment '登录时间',
     primary key (`id`)
 ) engine = InnoDB
   default charset = utf8 comment '用户表';

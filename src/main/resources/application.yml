@@ -3,7 +3,7 @@ spring:
     cache: false
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://106.13.171.218/Ruffian?userSSL=false
+    url: jdbc:mysql://139.9.221.111:12345/Ruffian?userSSL=false
     username: root
     password: hl951103
     # 初始化时运行sql脚本
@@ -30,7 +30,7 @@ spring:
             enable: true
             required: true
 server:
-  port: 8080
+  port: 80
 logging:
   level:
     root: info
