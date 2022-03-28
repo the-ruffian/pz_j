@@ -17,7 +17,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
                 .addPathPatterns("/api/**")
                 //放行接口
                 .excludePathPatterns("/api/user/login","/api/user/register","/api/getCode","/api/forgetPassword",
-                        "/api/columnMenu/list", "/api/article/list",
+                        "/api/columnMenu/list", "/api/article/list","/api/article/body",
                         "/swagger-ui.html/**", "/v2/**","/swagger-resources/**","/webjars/**","/*.html");
     }
 }
