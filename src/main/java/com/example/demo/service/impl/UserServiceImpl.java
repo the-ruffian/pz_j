@@ -2,7 +2,6 @@ package com.example.demo.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.demo.entity.SysCode;
-import com.example.demo.entity.Token;
 import com.example.demo.entity.User;
 import com.example.demo.mapper.SysCodeDao;
 import com.example.demo.mapper.TokenDao;
@@ -14,10 +13,10 @@ import com.example.demo.model.vo.UserUpdateVo;
 import com.example.demo.service.UserService;
 import com.example.demo.utils.JWTUtils;
 import com.example.demo.utils.PublicMethod;
+import com.example.demo.utils.RedisUtils;
 import com.example.demo.utils.model.OpenResponse;
 import com.github.pagehelper.PageInfo;
 import com.github.pagehelper.page.PageMethod;
-import io.swagger.models.auth.In;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,10 +35,12 @@ public class UserServiceImpl implements UserService {
     TokenDao tokenDao;
     @Autowired
     SysCodeDao sysCodeDao;
+    @Autowired
+    RedisUtils redisUtils;
 
     @Override
     public OpenResponse registerUser(UserRegisterDto userRegisterDto) {
-        Integer gender = userRegisterDto.getGender();//.equals("男")  ? 1 : userRegisterDto.getGender().equals("女") ? 0 : 2;
+        Integer gender = userRegisterDto.getGender();
         QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
         Integer integer = userDao.selectCount(userQueryWrapper.select("phone")
                 .eq("phone", userRegisterDto.getPhone()));
@@ -132,30 +133,25 @@ public class UserServiceImpl implements UserService {
             userQueryWrapper1.select("username", "password").eq("phone", phone);
             User user = userDao.selectOne(userQueryWrapper1);
             if (md5Password.equals(user.getPassword())) {
-                Map<String, String> payload = new HashMap<>();
-                payload.put("phone", phone);
-                payload.put("md5Password", md5Password);
-                String token = JWTUtils.getToken(payload);
-                QueryWrapper<Token> tokenQueryWrapper = new QueryWrapper<>();
-                tokenQueryWrapper.select("id").eq("phone", phone);
-                Integer integer1 = tokenDao.selectCount(tokenQueryWrapper);
-                if (integer1 == 1) {
-                    Token tokenList = tokenDao.selectOne(tokenQueryWrapper);
-                    Integer tokenId = tokenList.getId();
-                    Token token1 = new Token();
-                    token1.setId(tokenId);
-                    token1.setToken(token);
-                    tokenDao.updateById(token1);
-                } else {
-                    Token token1 = new Token();
-                    token1.setPhone(phone);
-                    token1.setToken(token);
-                    tokenDao.insert(token1);
-                }
                 user.setLoginTime(PublicMethod.getNowTime());
                 userDao.update(user, userQueryWrapper.eq("phone", phone));
                 UserLoginVo userLoginVo = new UserLoginVo();
-                userLoginVo.setToken(token);
+                if (!redisUtils.exists("user_"+phone)){
+                    Map<String, String> payload = new HashMap<>();
+                    payload.put("phone", phone);
+                    payload.put("md5Password", md5Password);
+                    String token = JWTUtils.getToken(payload);
+                    userLoginVo.setToken(token);
+                    HashMap<Object, Object> tokenMap = new HashMap<>();
+                    tokenMap.put("username",user.getUsername());
+                    tokenMap.put("token",token);
+                    redisUtils.hmSet("user_"+phone, tokenMap);
+                    redisUtils.setTimeOfDay("user_"+phone,7);
+                }else {
+                    redisUtils.setTimeOfDay("user_"+phone,7);
+                    String token = redisUtils.hmGet("user_"+phone,"token").toString();
+                    userLoginVo.setToken(token);
+                }
                 userLoginVo.setUsername(user.getUsername());
                 return OpenResponse.ok("登录成功", userLoginVo);
             } else {
@@ -245,14 +241,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public OpenResponse logout(UserLogoutDto userLogoutDto){
-        QueryWrapper<Token> tokenQueryWrapper = new QueryWrapper<>();
-        Integer token = tokenDao.selectCount(tokenQueryWrapper
-                .eq("phone",userLogoutDto.getPhone()));
-        if (token ==1){
-            tokenDao.delete(tokenQueryWrapper.eq("phone",userLogoutDto.getPhone()));
-            return OpenResponse.ok("退出登录");
+        String userPhone = "user_"+userLogoutDto.getPhone();
+        if (!redisUtils.exists(userPhone)){
+            return OpenResponse.fail("token已失效，请重新登录......");
         }else {
-            return OpenResponse.fail("token已失效，请重新登录");
+            redisUtils.remove(userPhone);
+            return OpenResponse.ok("退出登录");
         }
     }
 }
