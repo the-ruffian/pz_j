@@ -11,6 +11,7 @@ import lombok.Data;
 import java.sql.Timestamp;
 
 /**
+ * @author the-ruffian
  * 文章表映射
  */
 @Data
